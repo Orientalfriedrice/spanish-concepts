@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fbf6ef">
+<title>Español</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Español">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="manifest" href="manifest.json">
+<style>
+:root{--bg:#fbf6ef;--card:#fff;--ink:#2b2420;--muted:#7d7068;--line:#eadfd3;--accent:#c0392b;--accent2:#2f6fb5;
+--ok:#2e9a5b;--okbg:#e7f6ec;--close:#c98a12;--closebg:#fff4dc;--bad:#d24b3e;--badbg:#fdeceb;--chip:#f3ebe1;--shadow:0 2px 10px rgba(60,40,20,.08)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
+button{font:inherit;cursor:pointer;color:inherit}
+.wrap{max-width:680px;margin:0 auto;padding:14px 14px calc(28px + env(safe-area-inset-bottom))}
+.hidden{display:none!important}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 12px}
+h1{font-size:21px;margin:0;letter-spacing:-.2px}
+h1 span{color:var(--accent)}
+.iconbtn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:8px 12px;font-size:15px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 4px;text-align:center}
+.stat b{display:block;font-size:22px;line-height:1.2}
+.stat small{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.bigbtn{border:0;border-radius:16px;padding:14px 12px;text-align:left;box-shadow:var(--shadow);color:#fff}
+.bigbtn b{display:block;font-size:17px}
+.bigbtn small{opacity:.92;font-size:13px}
+.bigbtn.due{background:linear-gradient(135deg,#c0392b,#e0663a)}
+.bigbtn.star{background:linear-gradient(135deg,#2f6fb5,#5b8fd6)}
+.bigbtn:disabled{opacity:.55}
+.sectitle{font-size:13px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin:6px 2px 8px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:560px){.grid{grid-template-columns:repeat(3,1fr)}}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;text-align:left;box-shadow:var(--shadow);min-height:96px;display:flex;flex-direction:column;gap:4px}
+.tile .em{font-size:22px}
+.tile .nm{font-weight:650;font-size:14.5px;line-height:1.25}
+.tile .ct{font-size:12px;color:var(--muted);margin-top:auto;display:flex;flex-wrap:wrap;gap:4px}
+.pill{display:inline-block;border-radius:999px;padding:1px 8px;font-size:11.5px;background:var(--chip);color:var(--muted)}
+.pill.due{background:#fde3df;color:#b13224}
+.pill.new{background:#e3eefb;color:#2a62a5}
+.pill.star{background:#fff1cc;color:#946200}
+.foot{color:var(--muted);font-size:12.5px;text-align:center;margin-top:18px}
+details.settings{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-top:16px}
+details.settings summary{cursor:pointer;font-weight:600}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0}
+.row input[type=number]{width:70px;font-size:16px;padding:4px 6px;border:1px solid var(--line);border-radius:8px}
+.danger{border:1px solid #e9b8b2;background:#fff5f4;color:#a3281c;border-radius:10px;padding:6px 12px}
+/* topic */
+.back{border:0;background:none;color:var(--accent2);padding:6px 0;font-size:15px}
+.topichead{display:flex;align-items:center;gap:10px;margin:6px 0 12px}
+.topichead .em{font-size:30px}
+.topichead h2{margin:0;font-size:20px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.btn{border:0;border-radius:14px;padding:13px 10px;font-weight:650;font-size:15.5px}
+.btn.primary{background:var(--ink);color:#fff}
+.btn.secondary{background:var(--card);border:1px solid var(--line)}
+.btn:disabled{opacity:.45}
+.clist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.clist li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.clist li .t{font-size:14.5px}
+.clist li .s{font-size:12px;color:var(--muted);white-space:nowrap;text-align:right}
+.clist li button{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:4px 10px;font-size:13px}
+/* drill */
+.drillbar{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.progress{height:5px;background:var(--line);border-radius:4px;overflow:hidden;margin:6px 0 12px}
+.progress i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.plabel{font-size:13px;color:var(--muted)}
+.ccard{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:16px 16px 12px}
+.meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.ccard h2{font-size:20px;margin:6px 0 2px;line-height:1.25}
+.chead{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.holden{flex:none;border:1.5px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:6px 11px;font-size:13px;font-weight:650;cursor:pointer;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:none;-webkit-tap-highlight-color:transparent}
+.holden.on{background:var(--accent2);border-color:var(--accent2);color:#fff}
+.lang-en{display:none}
+.show-en .lang-en{display:inline}
+.show-en .lang-es{display:none}
+.show-en #cTitle,.show-en #cSub,.show-en #cInstr,.show-en .prompt{color:var(--accent2)}
+.tile-en{font-size:12px;color:var(--muted)}
+.ccard .sub{color:var(--accent);font-weight:650;font-size:16px;margin-bottom:2px}
+.ccard .instr{color:var(--muted);font-size:14px;margin:4px 0 10px}
+ol.items{margin:0;padding:0;list-style:none;counter-reset:q}
+ol.items li{counter-increment:q;border-top:1px solid var(--line);padding:10px 0 10px 32px;position:relative}
+ol.items li:first-child{border-top:0}
+ol.items li::before{content:counter(q);position:absolute;left:0;top:10px;width:23px;height:23px;border-radius:50%;background:var(--chip);color:var(--muted);font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center}
+ol.items li.ok::before{background:var(--ok);color:#fff;content:"✓"}
+ol.items li.close::before{background:var(--close);color:#fff;content:"≈"}
+ol.items li.bad::before{background:var(--bad);color:#fff;content:"✗"}
+ol.items li.open::before{background:var(--accent2);color:#fff}
+.prompt{font-size:16.5px;font-weight:550}
+.prompt .opentag{font-size:11px;font-weight:600;color:var(--accent2);background:#e3eefb;border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+.items input{display:block;width:100%;margin-top:6px;font-size:16px;padding:9px 11px;border:1.5px solid var(--line);border-radius:10px;background:#fffdfa;color:var(--ink);outline:none}
+.items input:focus{border-color:#d9a273;background:#fff}
+li.ok input{border-color:var(--ok);background:var(--okbg)}
+li.close input{border-color:var(--close);background:var(--closebg)}
+li.bad input{border-color:var(--bad);background:var(--badbg)}
+.ans{margin-top:7px;display:flex;align-items:flex-start;gap:8px}
+.ans .es{font-size:17px;font-weight:700;color:#1d5a3a;flex:1}
+.ans .alts{display:block;font-size:12.5px;font-weight:400;color:var(--muted)}
+.spk{border:1px solid var(--line);background:var(--bg);border-radius:50%;width:34px;height:34px;flex:none;font-size:15px;line-height:1}
+.mark{font-size:13px;margin-top:3px}
+.mark.ok{color:var(--ok)}.mark.close{color:var(--close)}.mark.bad{color:var(--bad)}.mark.open{color:var(--accent2)}
+.itip{font-size:13px;color:var(--muted);margin-top:3px}
+.ctip{margin-top:10px;background:#fff8e8;border:1px solid #f1e1b8;border-radius:12px;padding:9px 12px;font-size:14px}
+.ctrl{margin-top:14px}
+.reveal{width:100%;background:var(--ink);color:#fff;border:0;border-radius:14px;padding:14px;font-size:17px;font-weight:650}
+.scoreline{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.score{font-size:18px;font-weight:700}
+.score small{font-weight:500;color:var(--muted);font-size:13px;display:block}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.grades button{border:0;border-radius:14px;padding:11px 4px 8px;color:#fff;font-weight:700;font-size:15.5px;position:relative}
+.grades button small{display:block;font-weight:500;font-size:12px;opacity:.9}
+.g1{background:#d6453a}.g2{background:#e08a2c}.g3{background:#2e9a5b}.g4{background:#2f78c9}
+.grades button.sugg{outline:3px solid var(--ink);outline-offset:2px}
+.grades button.sugg::after{content:"suggested";position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:9.5px;font-weight:600;padding:1px 6px;border-radius:6px;text-transform:uppercase;letter-spacing:.4px}
+.next{width:100%;background:var(--accent2);color:#fff;border:0;border-radius:14px;padding:13px;font-size:16px;font-weight:650}
+.keys{font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
+.done{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px 18px;text-align:center;box-shadow:var(--shadow)}
+.done .big-emoji{font-size:44px}
+.done p{color:var(--muted)}
+.done .btn{width:100%;margin-top:8px}
+kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px;font-size:11px;background:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HOME -->
+<section id="home">
+  <header class="top">
+    <h1>🇪🇸 Spanish <span>concept drills</span></h1>
+  </header>
+  <div class="stats">
+    <div class="stat"><b id="hDue" style="color:var(--accent)">0</b><small>Due</small></div>
+    <div class="stat"><b id="hNew" style="color:var(--accent2)">0</b><small>New today</small></div>
+    <div class="stat"><b id="hSeen">0</b><small>Started</small></div>
+    <div class="stat"><b id="hLearned" style="color:var(--ok)">0</b><small>Learned</small></div>
+  </div>
+  <div class="big">
+    <button class="bigbtn due" id="btnAllDue"><b>▶ All due</b><small id="allDueSub"></small></button>
+    <button class="bigbtn star" id="btnStar"><b>★ New since last class</b><small id="starSub"></small></button>
+  </div>
+  <div class="sectitle">Topics</div>
+  <div class="grid" id="topicGrid"></div>
+  <details class="settings" id="settings">
+    <summary>⚙︎ Settings</summary>
+    <div class="row"><label for="sNewPerDay">New concept cards per day</label><input type="number" id="sNewPerDay" min="0" max="50"></div>
+    <div class="row"><label for="sTyping">Show typing boxes</label><input type="checkbox" id="sTyping"></div>
+    <div class="row"><label for="sRate">Speech speed</label><select id="sRate"><option value="0.7">Slow</option><option value="0.9">Normal</option><option value="1.05">Fast</option></select></div>
+    <div class="row"><span id="voiceInfo" style="font-size:13px;color:var(--muted)">Voice: checking…</span></div>
+    <div class="row"><span>Reset all progress</span><button class="danger" id="resetBtn">Reset</button></div>
+  </details>
+  <div class="foot">Concept cards built from your Notion Spanish notes, with spellings corrected. Each one randomises its prompts, so repeats are never the same.<br>Progress is saved on this device only.</div>
+</section>
+
+<!-- TOPIC -->
+<section id="topic" class="hidden">
+  <button class="back" data-home>← Topics</button>
+  <div class="topichead"><span class="em" id="tEm"></span><div><h2 id="tName"></h2><div class="plabel" id="tCounts"></div></div></div>
+  <div class="actions">
+    <button class="btn primary" id="tStudy">Study</button>
+    <button class="btn secondary" id="tPractice">Practice this topic now</button>
+  </div>
+  <div class="sectitle">Concept cards</div>
+  <ul class="clist" id="tList"></ul>
+  <div class="foot">“Study” follows your schedule (due cards and today's new ones). “Practice” runs every card in this topic and leaves the schedule alone.</div>
+</section>
+
+<!-- DRILL -->
+<section id="drill" class="hidden">
+  <div class="drillbar"><button class="back" id="drillBack">← Back</button><span class="plabel" id="dLabel"></span></div>
+  <div class="progress"><i id="dBar"></i></div>
+  <div id="cardArea">
+    <div class="ccard" id="ccard">
+      <div class="chead"><div class="meta" id="cMeta"></div><button type="button" class="holden" id="holdEn" aria-pressed="false" title="Press and hold to see the English (or hold the E key)">🇬🇧 Hold for English</button></div>
+      <h2 id="cTitle"></h2>
+      <div class="sub" id="cSub"></div>
+      <div class="instr" id="cInstr"></div>
+      <ol class="items" id="cItems"></ol>
+      <div class="ctip hidden" id="cTip"></div>
+    </div>
+    <div class="ctrl" id="ctrlPre">
+      <button class="reveal" id="revealBtn">Reveal answers</button>
+      <div class="keys"><kbd>Enter</kbd> next box · <kbd>Enter</kbd> on the last box reveals · hold <kbd>E</kbd> (outside a box) for English</div>
+    </div>
+    <div class="ctrl hidden" id="ctrlPost">
+      <div class="scoreline"><div class="score" id="scoreTxt"></div><button class="iconbtn" id="speakAll">🔊 Speak all</button></div>
+      <div class="grades" id="grades">
+        <button class="g1" data-g="1">Again<small id="iv1"></small></button>
+        <button class="g2" data-g="2">Hard<small id="iv2"></small></button>
+        <button class="g3" data-g="3">Good<small id="iv3"></small></button>
+        <button class="g4" data-g="4">Easy<small id="iv4"></small></button>
+      </div>
+      <button class="next hidden" id="nextBtn">Next card →</button>
+      <div class="keys" id="postKeys"><kbd>1</kbd>–<kbd>4</kbd> grade · <kbd>S</kbd> speak all</div>
+    </div>
+  </div>
+  <div class="done hidden" id="doneBox">
+    <div class="big-emoji">🎉</div>
+    <h2 style="margin:6px 0">¡Muy bien!</h2>
+    <p id="doneMsg"></p>
+    <button class="btn primary" id="doneMore">Learn 3 more new cards</button>
+    <button class="btn secondary" id="donePractice">Practice these anyway</button>
+    <button class="btn secondary" data-home>Back to topics</button>
+  </div>
+</section>
+</div>
+
+<script>
+"use strict";
+const CONCEPTS = [{"id": "greet-hello", "topic": "Greetings & courtesy", "title": "Greetings for every situation", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "Hello!", "a": "¡Hola!"}, {"p": "Good morning", "a": "Buenos días"}, {"p": "Good afternoon (it's 3 pm)", "a": "Buenas tardes"}, {"p": "Good evening / good night (it's 9 pm)", "a": "Buenas noches"}, {"p": "How are you? (to a friend)", "a": "¿Cómo estás?", "alts": ["¿Qué tal?"], "tip": "tú form"}, {"p": "How are you? (to an older stranger, formal)", "a": "¿Cómo está usted?", "alts": ["¿Cómo está?"], "tip": "usted form: está, not estás"}, {"p": "How's it going?", "a": "¿Qué tal?"}, {"p": "I'm good", "a": "Estoy bien"}, {"p": "I'm not well", "a": "Estoy mal"}, {"p": "Nice to meet you", "a": "Mucho gusto", "alts": ["Encantado", "Encantada"], "tip": "Encantado if you're a man, encantada if you're a woman"}, {"p": "Welcome! (to a group)", "a": "¡Bienvenidos!"}, {"p": "What's up?", "a": "¿Qué pasa?"}], "title_es": "Saludos para cada situación", "instr_es": "Dilo en español."}, {"id": "greet-bye", "topic": "Greetings & courtesy", "title": "Saying goodbye", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "Goodbye", "a": "Adiós"}, {"p": "Bye", "a": "Chao", "tip": "Spelled chao in Spanish (not ciao)"}, {"p": "See you later", "a": "Hasta luego"}, {"p": "See you soon", "a": "Hasta pronto"}, {"p": "See you tomorrow", "a": "Hasta mañana"}, {"p": "See you at the hotel", "a": "Nos vemos en el hotel", "tip": "nos vemos = see you; nos vamos = we're leaving"}, {"p": "We're leaving", "a": "Nos vamos"}], "title_es": "Despedidas", "instr_es": "Dilo en español."}, {"id": "greet-polite", "topic": "Greetings & courtesy", "title": "Thanks, sorry & excuse me", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "Thank you very much", "a": "Muchas gracias"}, {"p": "You're welcome", "a": "De nada"}, {"p": "It's nothing", "a": "No es nada"}, {"p": "I'm very sorry", "a": "Lo siento mucho"}, {"p": "Excuse me (to get attention, formal)", "a": "Disculpe", "alts": ["Perdone"]}, {"p": "Excuse me (to get attention, informal)", "a": "Disculpa", "alts": ["Perdona"]}, {"p": "Excuse me (to get past someone)", "a": "Con permiso", "alts": ["Permiso"]}, {"p": "Sorry? / Pardon?", "a": "¿Perdón?", "alts": ["Perdón"]}, {"p": "Bless you! / Cheers!", "a": "¡Salud!"}, {"p": "Seriously?", "a": "¿En serio?"}, {"p": "It's fine / it's OK", "a": "Está bien", "alts": ["Vale"]}], "title_es": "Gracias, perdón y disculpe", "instr_es": "Dilo en español."}, {"id": "greet-dialogue", "topic": "Greetings & courtesy", "title": "Mini-dialogue: meeting people", "instr": "Translate the whole dialogue into Spanish.", "n": 6, "sets": [[{"p": "A: Hi! How's it going?", "a": "¡Hola! ¿Qué tal?"}, {"p": "B: Good, thanks. And you?", "a": "Bien, gracias. ¿Y tú?", "alts": ["Estoy bien, gracias. ¿Y tú?"]}, {"p": "A: I'm not well.", "a": "Estoy mal."}, {"p": "B: Seriously? I'm very sorry.", "a": "¿En serio? Lo siento mucho."}, {"p": "A: It's nothing. See you tomorrow!", "a": "No es nada. ¡Hasta mañana!"}], [{"p": "Good morning, how are you? (formal)", "a": "Buenos días, ¿cómo está usted?", "alts": ["Buenos días, ¿cómo está?"]}, {"p": "Very well, thank you. Nice to meet you.", "a": "Muy bien, gracias. Mucho gusto.", "alts": ["Muy bien, gracias. Encantado.", "Muy bien, gracias. Encantada."]}, {"p": "Excuse me (formal), where is the toilet?", "a": "Disculpe, ¿dónde está el baño?", "alts": ["Perdone, ¿dónde está el baño?"]}, {"p": "Over there.", "a": "Por allá."}, {"p": "Thank you very much!", "a": "¡Muchas gracias!"}, {"p": "You're welcome. See you later.", "a": "De nada. Hasta luego."}]], "title_es": "Minidiálogo: conocer gente", "instr_es": "Traduce todo el diálogo al español."}, {"id": "intro-self", "topic": "Introductions & personal info", "title": "Introduce yourself", "instr": "Answer each question about yourself in a full sentence. These are open answers, so check against the example yourself.", "n": 5, "items": [{"open": true, "pe": "What's your name?", "p": "¿Cómo te llamas?", "a": "Me llamo Joseph."}, {"open": true, "pe": "Where are you from?", "p": "¿De dónde eres?", "a": "Soy de Singapur. Soy singapurense.", "tip": "Nationalities are lowercase."}, {"open": true, "pe": "Where do you live?", "p": "¿Dónde vives?", "a": "Vivo en Singapur."}, {"open": true, "pe": "What do you do for work?", "p": "¿En qué trabajas?", "a": "Trabajo en finanzas."}, {"open": true, "pe": "What languages do you speak?", "p": "¿Qué lenguas hablas?", "a": "Hablo inglés, chino y un poco de español."}, {"open": true, "pe": "Why are you studying Spanish?", "p": "¿Por qué estudias español?", "a": "Estudio español porque quiero hablar con mis amigos."}, {"open": true, "pe": "What's your favourite food?", "p": "¿Cuál es tu comida favorita?", "a": "Mi comida favorita es la paella."}, {"open": true, "pe": "How old are you?", "p": "¿Cuántos años tienes?", "a": "Tengo ___ años.", "tip": "Age uses tener."}], "title_es": "Preséntate", "instr_es": "Responde a cada pregunta sobre ti con una frase completa. Son respuestas abiertas: compáralas tú mismo con el ejemplo."}, {"id": "intro-ask", "topic": "Introductions & personal info", "title": "Ask someone about themselves", "instr": "Ask the question in Spanish. Watch tú vs usted.", "n": 6, "items": [{"p": "What's your name? (tú)", "a": "¿Cómo te llamas?", "alts": ["¿Cuál es tu nombre?"]}, {"p": "Where are you from? (tú)", "a": "¿De dónde eres?"}, {"p": "Where are you from? (formal)", "a": "¿De dónde es usted?"}, {"p": "Are you from here? (formal)", "a": "¿Es usted de aquí?"}, {"p": "What's your surname?", "a": "¿Cuál es tu apellido?"}, {"p": "What's your nationality?", "a": "¿Cuál es tu nacionalidad?"}, {"p": "What languages do you speak?", "a": "¿Qué lenguas hablas?"}, {"p": "How old are you?", "a": "¿Cuántos años tienes?"}, {"p": "What's your favourite food?", "a": "¿Cuál es tu comida favorita?"}, {"p": "What are your names? (you all, Spain)", "a": "¿Cómo os llamáis?"}], "title_es": "Pregunta a alguien por su vida", "instr_es": "Haz la pregunta en español. Cuidado con tú y usted."}, {"id": "intro-others", "topic": "Introductions & personal info", "title": "Talk about other people", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "Her name is Ann", "a": "Ella se llama Ann"}, {"p": "What are their names?", "a": "¿Cómo se llaman ellos?", "alts": ["¿Cómo se llaman?"]}, {"p": "She lives in Tiong Bahru", "a": "Ella vive en Tiong Bahru"}, {"p": "She speaks English, Chinese and Malay", "a": "Ella habla inglés, chino y malayo", "tip": "hablo = I speak; habla = she speaks"}, {"p": "Are they from Argentina?", "a": "¿Ellos son de Argentina?", "alts": ["¿Son de Argentina?", "¿Son ellos de Argentina?"]}, {"p": "Where are they from?", "a": "¿De dónde son ellos?", "alts": ["¿De dónde son?"]}, {"p": "My dad is 47 years old", "a": "Mi papá tiene cuarenta y siete años", "alts": ["Mi papá tiene 47 años"], "tip": "papá (dad) ≠ papa (potato)"}, {"p": "We are Colombian", "a": "Somos colombianos"}, {"p": "We are Spanish", "a": "Somos españoles"}, {"p": "The children are good-looking", "a": "Los niños son guapos"}, {"p": "Our names are Jo and Juan", "a": "Nos llamamos Jo y Juan"}], "title_es": "Habla de otras personas", "instr_es": "Dilo en español."}, {"id": "intro-story", "topic": "Introductions & personal info", "title": "Your story in sentences", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "I'm learning Spanish because I want to visit Latin America", "a": "Estoy aprendiendo español porque quiero visitar Latinoamérica", "tip": "\"I am …-ing\" = estar + -ando/-iendo"}, {"p": "I study Spanish to talk with my friends", "a": "Estudio español para hablar con mis amigos", "tip": "para + infinitive = in order to"}, {"p": "I quit my job last year", "a": "Renuncié a mi trabajo el año pasado", "tip": "renunciar a"}, {"p": "I used to live in Singapore, but now I live in Spain", "a": "Solía vivir en Singapur, pero ahora vivo en España"}, {"p": "My Spanish isn't good", "a": "Mi español no es bueno"}, {"p": "I'm not from here", "a": "No soy de aquí"}, {"p": "I speak English, Chinese and a little Spanish", "a": "Hablo inglés, chino y un poco de español"}, {"p": "My favourite food is paella", "a": "Mi comida favorita es la paella"}], "title_es": "Tu historia en frases", "instr_es": "Dilo en español."}, {"id": "intro-contact", "topic": "Introductions & personal info", "title": "Personal details vocabulary", "instr": "Give the Spanish word, with its article.", "n": 5, "items": [{"p": "email", "a": "el correo electrónico", "alts": ["el correo"]}, {"p": "address", "a": "la dirección"}, {"p": "mobile number", "a": "el número de móvil", "alts": ["el móvil"]}, {"p": "city", "a": "la ciudad"}, {"p": "country", "a": "el país"}, {"p": "countries", "a": "los países"}, {"p": "surname", "a": "el apellido"}, {"p": "first name", "a": "el nombre"}, {"p": "age", "a": "la edad"}, {"p": "joseph@gmail.com (say it out loud)", "a": "joseph arroba gmail punto com", "tip": "@ = arroba, . = punto"}], "title_es": "Datos personales: vocabulario", "instr_es": "Escribe la palabra en español, con su artículo."}, {"id": "work-me", "topic": "Work & professions", "title": "Talk about your job", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "I work in finance", "a": "Trabajo en finanzas", "tip": "trabajo already means \"I work\", so no soy"}, {"p": "I work in an office", "a": "Trabajo en una oficina"}, {"p": "I work a lot", "a": "Trabajo mucho"}, {"p": "I work in investments", "a": "Trabajo en inversiones"}, {"p": "I work from 9 to 5", "a": "Trabajo de nueve a cinco"}, {"p": "I work Monday to Friday", "a": "Trabajo de lunes a viernes"}, {"p": "I'm not working at the moment", "a": "No estoy trabajando"}, {"p": "I'm a teacher (man)", "a": "Soy profesor", "tip": "No \"un\": Soy profesor"}], "title_es": "Habla de tu trabajo", "instr_es": "Dilo en español."}, {"id": "work-ask", "topic": "Work & professions", "title": "Ask about work", "instr": "Ask the question in Spanish (tú).", "n": 4, "items": [{"p": "What do you do for work?", "a": "¿En qué trabajas?", "alts": ["¿A qué te dedicas?"]}, {"p": "What's your profession?", "a": "¿Cuál es tu profesión?"}, {"p": "Where do you work?", "a": "¿Dónde trabajas?"}, {"p": "What do you do for a living?", "a": "¿A qué te dedicas?", "alts": ["¿En qué trabajas?"]}, {"p": "What time do you work?", "a": "¿A qué hora trabajas?"}, {"p": "What do you do?", "a": "¿Qué haces?"}], "title_es": "Pregunta por el trabajo", "instr_es": "Haz la pregunta en español (tú)."}, {"id": "work-others", "topic": "Work & professions", "title": "Other people's jobs", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "She's a social worker", "a": "Ella es trabajadora social", "alts": ["Es trabajadora social"]}, {"p": "She works for the government", "a": "Ella trabaja en el gobierno", "alts": ["Trabaja en el gobierno"]}, {"p": "He's a police officer", "a": "Él es policía", "alts": ["Es policía"]}, {"p": "She's an actress", "a": "Ella es actriz", "alts": ["Es actriz"]}, {"p": "He's a teacher", "a": "Él es profesor", "alts": ["Es profesor"]}, {"p": "She's a teacher", "a": "Ella es profesora", "alts": ["Es profesora"]}, {"p": "I'm a homemaker", "a": "Soy ama de casa"}, {"p": "I work in finance (I'm a financier)", "a": "Soy financiero"}], "tip": "With ser + profession, no article: Es profesor, not Es un profesor.", "title_es": "El trabajo de otras personas", "instr_es": "Dilo en español."}, {"id": "serestar-gap", "topic": "Pronouns, ser & estar", "title": "ser or estar? Fill the gap", "instr": "Type just the missing verb.", "n": 6, "items": [{"pe": "He's not here.", "p": "Él no ___ aquí.", "a": "está", "tip": "location → estar"}, {"pe": "You're from Mexico (formal).", "p": "Usted ___ de México.", "a": "es", "tip": "origin → ser"}, {"pe": "Where is the Fernández hotel?", "p": "¿Dónde ___ el hotel Fernández?", "a": "está", "tip": "location → estar"}, {"pe": "We are Spanish.", "p": "Nosotros ___ españoles.", "a": "somos", "tip": "nationality → ser"}, {"pe": "This coffee is cold (right now).", "p": "Este café ___ frío. (ahora)", "a": "está", "tip": "temporary state → estar"}, {"pe": "It's important.", "p": "___ importante.", "a": "Es"}, {"pe": "I'm eating my dinner.", "p": "___ comiendo mi cena.", "a": "Estoy", "tip": "-ando/-iendo → estar"}, {"pe": "My Spanish isn't good.", "p": "Mi español no ___ bueno.", "a": "es"}, {"pe": "I'm a teacher.", "p": "Yo ___ profesor.", "a": "soy", "tip": "profession → ser"}, {"pe": "It tastes very good! (the food, right now)", "p": "¡___ muy buena! (la comida, ahora)", "a": "Está", "tip": "how it is right now → estar"}, {"pe": "They're from Argentina.", "p": "Ellos ___ de Argentina.", "a": "son"}, {"pe": "My wife is here with us.", "p": "Mi esposa ___ aquí con nosotros.", "a": "está"}, {"pe": "It's three in the afternoon.", "p": "___ las tres de la tarde.", "a": "Son", "tip": "clock time → ser"}, {"pe": "How are you? (tú)", "p": "¿Cómo ___? (tú)", "a": "estás"}, {"pe": "You're incredible.", "p": "Tú ___ increíble.", "a": "eres"}], "title_es": "¿Ser o estar? Completa el hueco", "instr_es": "Escribe solo el verbo que falta."}, {"id": "pronouns", "topic": "Pronouns, ser & estar", "title": "Pronouns & possessives", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "I / you / he / she", "a": "yo / tú / él / ella"}, {"p": "we (mixed group) / we (all women)", "a": "nosotros / nosotras"}, {"p": "you all (Spain) / you all (Latin America)", "a": "vosotros / ustedes"}, {"p": "they (men or mixed) / they (all women)", "a": "ellos / ellas"}, {"p": "my house", "a": "mi casa", "tip": "mi = my; me = me"}, {"p": "your eyes (tú)", "a": "tus ojos"}, {"p": "his friend", "a": "su amigo"}, {"p": "I like your house (tú)", "a": "Me gusta tu casa", "tip": "tu (no accent) = your"}, {"p": "You are incredible (tú)", "a": "Tú eres increíble", "tip": "tú (accent) = you"}, {"p": "I love you (deep, romantic)", "a": "Te amo"}, {"p": "I love you (family, friends)", "a": "Te quiero"}], "title_es": "Pronombres y posesivos", "instr_es": "Dilo en español."}, {"id": "articles", "topic": "Pronouns, ser & estar", "title": "el, la, los, las", "instr": "Type the article and the noun.", "n": 7, "items": [{"pe": "the meeting", "p": "___ reunión", "a": "la reunión", "tip": "-ión words are feminine"}, {"pe": "the day", "p": "___ día", "a": "el día", "tip": "masculine even though it ends in -a"}, {"pe": "the bar", "p": "___ bar", "a": "el bar"}, {"pe": "the things", "p": "___ cosas", "a": "las cosas"}, {"pe": "the water", "p": "___ agua", "a": "el agua", "tip": "feminine, but el because of the stressed a-"}, {"pe": "the city", "p": "___ ciudad", "a": "la ciudad", "tip": "-dad words are feminine"}, {"pe": "the dogs", "p": "___ perros", "a": "los perros"}, {"pe": "the glasses", "p": "___ gafas", "a": "las gafas"}, {"pe": "the coffee", "p": "___ café", "a": "el café"}, {"pe": "the beer", "p": "___ cerveza", "a": "la cerveza"}, {"pe": "the countries", "p": "___ países", "a": "los países"}, {"pe": "the address", "p": "___ dirección", "a": "la dirección"}, {"pe": "the hotel", "p": "___ hotel", "a": "el hotel"}, {"pe": "the week", "p": "___ semana", "a": "la semana"}], "title_es": "el, la, los, las", "instr_es": "Escribe el artículo y el sustantivo."}, {"id": "hay-esta", "topic": "Pronouns, ser & estar", "title": "hay vs está; this & these", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "Is there a hotel here?", "a": "¿Hay un hotel aquí?", "tip": "Is there…? = ¿Hay…?"}, {"p": "Where is the hotel?", "a": "¿Dónde está el hotel?"}, {"p": "There are ten here", "a": "Hay diez aquí"}, {"p": "It's here", "a": "Está aquí"}, {"p": "There's time today", "a": "Hay tiempo hoy"}, {"p": "What is this?", "a": "¿Qué es esto?"}, {"p": "I want this guitar", "a": "Quiero esta guitarra", "tip": "esta (no accent) = this (fem.)"}, {"p": "Is there time?", "a": "¿Hay tiempo?", "tip": "hay sounds like \"ai\""}, {"p": "There's very good food there", "a": "Hay muy buena comida allí"}], "title_es": "Hay o está; esto y esta", "instr_es": "Dilo en español."}, {"id": "class-survival", "topic": "Classroom phrases", "title": "Survival phrases in class", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "How do you say \"window\" in Spanish?", "a": "¿Cómo se dice \"window\" en español?", "tip": "se dice, not se dices"}, {"p": "How do you spell it?", "a": "¿Cómo se escribe?"}, {"p": "Sorry, can you repeat?", "a": "Perdón, ¿puedes repetir?"}, {"p": "What does \"vuelo\" mean?", "a": "¿Qué significa \"vuelo\"?"}, {"p": "I don't understand", "a": "No entiendo", "alts": ["No comprendo"]}, {"p": "I have a question", "a": "Tengo una pregunta"}, {"p": "You speak very fast", "a": "Hablas muy rápido"}, {"p": "Can you speak more slowly?", "a": "¿Puedes hablar más despacio?", "tip": "after puedes, use the infinitive"}, {"p": "Do you understand?", "a": "¿Entiendes?"}, {"p": "I don't know", "a": "No sé"}], "title_es": "Frases para sobrevivir en clase", "instr_es": "Dilo en español."}, {"id": "class-instructions", "topic": "Classroom phrases", "title": "Workbook instructions", "instr": "Give the infinitive (or noun).", "n": 6, "items": [{"p": "to read", "a": "leer"}, {"p": "to write", "a": "escribir"}, {"p": "to listen", "a": "escuchar"}, {"p": "to repeat", "a": "repetir"}, {"p": "to complete", "a": "completar"}, {"p": "to answer", "a": "contestar"}, {"p": "to underline", "a": "subrayar"}, {"p": "to match", "a": "relacionar"}, {"p": "to mark / tick", "a": "marcar"}, {"p": "page", "a": "la página"}, {"p": "the alphabet", "a": "el abecedario"}], "title_es": "Instrucciones del libro de ejercicios", "instr_es": "Escribe el infinitivo (o el sustantivo)."}, {"id": "class-teacher", "topic": "Classroom phrases", "title": "Talking to your teacher", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "My Spanish isn't good", "a": "Mi español no es bueno"}, {"p": "I'm learning Spanish", "a": "Estoy aprendiendo español"}, {"p": "I want to try", "a": "Quiero intentar"}, {"p": "I try", "a": "Intento"}, {"p": "Not me", "a": "Yo no"}, {"p": "Of course", "a": "Claro"}, {"p": "I'm going to try", "a": "Voy a intentar"}, {"p": "Why not?", "a": "¿Por qué no?"}], "title_es": "Hablar con tu profesor", "instr_es": "Dilo en español."}, {"id": "num-1-20", "topic": "Numbers", "title": "Numbers 1–20", "instr": "Write each number in Spanish words. You get a new set every time.", "n": 8, "gen": "num", "args": {"mode": "1-20"}, "tip": "16–19 are one word: dieciséis, diecisiete, dieciocho, diecinueve.", "title_es": "Los números del 1 al 20", "instr_es": "Escribe cada número en letras. Cada vez te sale una serie nueva."}, {"id": "num-tens", "topic": "Numbers", "title": "Tens up to 100", "instr": "Write each number in words.", "n": 6, "gen": "num", "args": {"mode": "tens"}, "tip": "70 setenta and 60 sesenta are easy to mix up. 100 = cien.", "title_es": "Las decenas hasta el 100", "instr_es": "Escribe cada número en letras."}, {"id": "num-21-99", "topic": "Numbers", "title": "Compound numbers 21–99", "instr": "Write each number in words.", "n": 6, "gen": "num", "args": {"mode": "21-99"}, "tip": "21–29 are one word (veintiuno, veintidós, veintitrés…). From 31 on, use y with no hyphens: treinta y uno.", "title_es": "Números compuestos del 21 al 99", "instr_es": "Escribe cada número en letras."}, {"id": "num-1-100", "topic": "Numbers", "title": "Spell out numbers 1–100", "instr": "Mixed challenge with plenty of tricky ones. A fresh set every time.", "n": 8, "gen": "num", "args": {"mode": "mix"}, "tip": "Accents: dieciséis, veintidós, veintitrés, veintiséis.", "title_es": "Escribe los números del 1 al 100", "instr_es": "Reto mixto con muchos números difíciles. Una serie nueva cada vez."}, {"id": "num-hundreds", "topic": "Numbers", "title": "Big numbers 100–999", "instr": "Write each number in words.", "n": 5, "gen": "num", "args": {"mode": "hundreds"}, "tip": "100 = cien, but 101–199 = ciento…. Irregulars: quinientos (500), setecientos (700), novecientos (900).", "title_es": "Números grandes del 100 al 999", "instr_es": "Escribe cada número en letras."}, {"id": "num-nouns", "topic": "Numbers", "title": "Numbers with nouns: minutes, ages, things", "instr": "Say it in Spanish.", "n": 6, "gen": "numnoun", "args": {}, "tip": "If it ends in 1: un before a masculine noun (veintiún minutos), una before a feminine one (veintiuna cervezas).", "title_es": "Números con sustantivos: minutos, edades, cosas", "instr_es": "Dilo en español."}, {"id": "num-prices", "topic": "Numbers", "title": "Prices", "instr": "Say it in Spanish.", "n": 5, "gen": "prices", "args": {"mode": "cuesta"}, "tip": "It costs = cuesta; they cost = cuestan.", "title_es": "Precios", "instr_es": "Dilo en español."}, {"id": "days-week", "topic": "Days & calendar", "title": "Days of the week", "instr": "Say it in Spanish. Days are lowercase.", "n": 7, "items": [{"p": "Monday", "a": "lunes"}, {"p": "Tuesday", "a": "martes"}, {"p": "Wednesday", "a": "miércoles"}, {"p": "Thursday", "a": "jueves"}, {"p": "Friday", "a": "viernes"}, {"p": "Saturday", "a": "sábado"}, {"p": "Sunday", "a": "domingo"}, {"p": "The day after Monday", "a": "martes"}, {"p": "The day after Tuesday", "a": "miércoles"}, {"p": "The day after Wednesday", "a": "jueves"}, {"p": "The day after Thursday", "a": "viernes"}, {"p": "The day before Sunday", "a": "sábado"}, {"p": "The day before Monday", "a": "domingo"}, {"p": "The day before Friday", "a": "jueves"}], "title_es": "Los días de la semana", "instr_es": "Dilo en español. Los días se escriben en minúscula."}, {"id": "days-phrases", "topic": "Days & calendar", "title": "Calendar phrases", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "on Mondays", "a": "los lunes"}, {"p": "Monday to Friday", "a": "de lunes a viernes"}, {"p": "the weekend", "a": "el fin de semana"}, {"p": "on weekdays", "a": "entre semana"}, {"p": "Today is Tuesday", "a": "Hoy es martes"}, {"p": "tomorrow", "a": "mañana"}, {"p": "every day", "a": "todos los días", "tip": "el día is masculine"}, {"p": "the week / the month / the year", "a": "la semana / el mes / el año"}, {"p": "the months", "a": "los meses"}, {"p": "See you tomorrow", "a": "Hasta mañana"}], "title_es": "Expresiones del calendario", "instr_es": "Dilo en español."}, {"id": "days-myweek", "topic": "Days & calendar", "title": "Your week", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "I have Spanish class on Tuesdays and Thursdays", "a": "Tengo clase de español los martes y los jueves", "alts": ["Tengo clase de español los martes y jueves"]}, {"p": "The class is from 7 to 10 pm", "a": "La clase es de siete a diez de la noche"}, {"p": "I work Monday to Friday", "a": "Trabajo de lunes a viernes"}, {"p": "On the weekend I play sports", "a": "El fin de semana practico deportes"}, {"p": "Today is Sunday and tomorrow is Monday", "a": "Hoy es domingo y mañana es lunes"}, {"p": "On Saturdays I go to the bakery", "a": "Los sábados voy a la panadería"}, {"p": "On weekdays I work a lot", "a": "Entre semana trabajo mucho"}], "title_es": "Tu semana", "instr_es": "Dilo en español."}, {"id": "time-clock", "topic": "Time & ¿A qué hora?", "title": "What time is it?", "instr": "Say each time as a full sentence (Es la… / Son las…). A fresh set every time.", "n": 6, "gen": "clock", "args": {"mode": "es"}, "tip": "Up to :30 use y (y cuarto, y media). After :30 use menos with the next hour (las siete menos veinte = 6:40). Es la una; son las dos, tres…", "title_es": "¿Qué hora es?", "instr_es": "Di cada hora con una frase completa (Es la… / Son las…). Una serie nueva cada vez."}, {"id": "time-at", "topic": "Time & ¿A qué hora?", "title": "At what time? (a las…)", "instr": "Say “at …” in Spanish.", "n": 6, "gen": "clock", "args": {"mode": "a"}, "tip": "a la una, but a las dos / a las tres…. Use de la mañana / de la tarde / de la noche.", "new": true, "title_es": "¿A qué hora? (a las…)", "instr_es": "Di «a las…» en español."}, {"id": "time-questions", "topic": "Time & ¿A qué hora?", "title": "¿A qué hora…? questions", "instr": "Ask the question in Spanish.", "n": 6, "items": [{"p": "What time does the supermarket open?", "a": "¿A qué hora abre el supermercado?"}, {"p": "What time does the supermarket close?", "a": "¿A qué hora cierra el supermercado?"}, {"p": "What time does the work meeting start?", "a": "¿A qué hora empieza la reunión de trabajo?", "tip": "la reunión (feminine)"}, {"p": "What time does the meeting end?", "a": "¿A qué hora termina la reunión?"}, {"p": "What time does the bus leave?", "a": "¿A qué hora sale el bus?"}, {"p": "What time does the flight arrive?", "a": "¿A qué hora llega el vuelo?", "tip": "vuelo = flight; plane = avión"}, {"p": "What time do you work?", "a": "¿A qué hora trabajas?"}, {"p": "What time do you get up?", "a": "¿A qué hora te levantas?"}, {"p": "What time do you eat lunch?", "a": "¿A qué hora comes?"}, {"p": "What time does the high-speed train leave?", "a": "¿A qué hora sale el tren AVE?", "alts": ["¿A qué hora sale el AVE?"]}], "new": true, "title_es": "Preguntas con ¿A qué hora…?", "instr_es": "Haz la pregunta en español."}, {"id": "time-answers", "topic": "Time & ¿A qué hora?", "title": "Opening, closing & departure times", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "The supermarket opens at 8 am", "a": "El supermercado abre a las ocho de la mañana"}, {"p": "The supermarket closes at 10 pm", "a": "El supermercado cierra a las diez de la noche"}, {"p": "The meeting starts at 9:15", "a": "La reunión empieza a las nueve y cuarto", "alts": ["La reunión empieza a las nueve y quince"]}, {"p": "The meeting ends at 11:30", "a": "La reunión termina a las once y media", "alts": ["La reunión termina a las once y treinta"]}, {"p": "The bus leaves at 6:40", "a": "El bus sale a las siete menos veinte", "alts": ["El bus sale a las seis y cuarenta"]}, {"p": "The flight arrives at 1 pm", "a": "El vuelo llega a la una de la tarde"}, {"p": "I get up at 8", "a": "Me levanto a las ocho"}, {"p": "I eat lunch at 1 pm", "a": "Como a la una de la tarde"}], "new": true, "title_es": "Horarios: abrir, cerrar, salir y llegar", "instr_es": "Dilo en español."}, {"id": "time-early-late", "topic": "Time & ¿A qué hora?", "title": "Early, late & how long", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "It's early", "a": "Es temprano"}, {"p": "It's very early", "a": "Es muy temprano"}, {"p": "It's late and I'm sleepy", "a": "Es tarde y tengo sueño"}, {"p": "It's not late", "a": "No es tarde"}, {"p": "Not now, later", "a": "Ahora no, más tarde"}, {"p": "I want to talk later", "a": "Quiero hablar más tarde"}, {"p": "How much time do you (all) have?", "a": "¿Cuánto tiempo tenéis?", "tip": "cuánto = how much; cuándo = when"}, {"p": "We have an hour", "a": "Tenemos una hora"}, {"p": "Do we have time?", "a": "¿Tenemos tiempo?"}, {"p": "an hour and a half", "a": "una hora y media"}, {"p": "It's too long (too much time)", "a": "Es demasiado tiempo"}, {"p": "in twenty-one minutes", "a": "en veintiún minutos"}, {"p": "Only fifteen minutes", "a": "Solo quince minutos"}, {"p": "If there's no time", "a": "Si no hay tiempo"}], "new": true, "title_es": "Temprano, tarde y cuánto tiempo", "instr_es": "Dilo en español."}, {"id": "time-day-parts", "topic": "Time & ¿A qué hora?", "title": "Parts of the day", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "in the morning", "a": "por la mañana"}, {"p": "in the afternoon", "a": "por la tarde"}, {"p": "at night", "a": "por la noche"}, {"p": "noon", "a": "el mediodía"}, {"p": "midnight", "a": "la medianoche"}, {"p": "now", "a": "ahora"}, {"p": "It's 3 pm", "a": "Son las tres de la tarde"}, {"p": "It's one o'clock", "a": "Es la una"}, {"p": "It's 6 pm", "a": "Son las seis de la tarde"}], "title_es": "Las partes del día", "instr_es": "Dilo en español."}, {"id": "routine-morning", "topic": "Daily routine & meals", "title": "Describe your day", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "I get up at eight", "a": "Me levanto a las ocho", "tip": "levantarse = get up; despertarse = wake up"}, {"p": "And then I shower", "a": "Y después me ducho"}, {"p": "I have breakfast at 8:30", "a": "Desayuno a las ocho y media"}, {"p": "I eat lunch at 1 pm", "a": "Como a la una de la tarde"}, {"p": "I have dinner at 8 pm", "a": "Ceno a las ocho de la noche"}, {"p": "I'm sleepy", "a": "Tengo sueño"}, {"p": "What time do you get up?", "a": "¿A qué hora te levantas?"}, {"p": "She gets up at seven", "a": "Ella se levanta a las siete", "alts": ["Se levanta a las siete"]}, {"p": "We shower in the morning", "a": "Nos duchamos por la mañana"}], "new": true, "title_es": "Describe tu día", "instr_es": "Dilo en español."}, {"id": "routine-meals", "topic": "Daily routine & meals", "title": "Meals: nouns & verbs", "instr": "Give both the noun and the verb.", "n": 5, "items": [{"p": "breakfast / to have breakfast", "a": "el desayuno / desayunar"}, {"p": "lunch / to have lunch", "a": "la comida / comer"}, {"p": "dinner / to have dinner", "a": "la cena / cenar"}, {"p": "afternoon snack / to have a snack", "a": "la merienda / merendar"}, {"p": "to sleep / to get up", "a": "dormir / levantarse"}, {"p": "to shower / to wake up", "a": "ducharse / despertarse"}], "title_es": "Las comidas: sustantivos y verbos", "instr_es": "Escribe el sustantivo y el verbo."}, {"id": "routine-despues", "topic": "Daily routine & meals", "title": "después de / antes de + infinitive", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "After eating, I work", "a": "Después de comer, trabajo"}, {"p": "After working, I listen to music", "a": "Después de trabajar, escucho música"}, {"p": "Before eating, I shower", "a": "Antes de comer, me ducho"}, {"p": "Before working, I have breakfast", "a": "Antes de trabajar, desayuno"}, {"p": "After dinner (after having dinner), I read magazines", "a": "Después de cenar, leo revistas"}, {"p": "After getting up, I shower", "a": "Después de levantarme, me ducho"}], "tip": "después de + infinitive (not “después comer”).", "title_es": "después de / antes de + infinitivo", "instr_es": "Dilo en español."}, {"id": "freq-words", "topic": "Frequency", "title": "How often? Frequency words", "instr": "Say it in Spanish.", "n": 7, "items": [{"p": "always", "a": "siempre"}, {"p": "almost always", "a": "casi siempre"}, {"p": "usually", "a": "normalmente", "alts": ["usualmente"]}, {"p": "often", "a": "a menudo", "alts": ["muchas veces"]}, {"p": "sometimes", "a": "a veces"}, {"p": "rarely", "a": "pocas veces"}, {"p": "almost never", "a": "casi nunca"}, {"p": "never", "a": "nunca"}, {"p": "every day", "a": "todos los días"}, {"p": "once a day", "a": "una vez al día"}, {"p": "twice a day", "a": "dos veces al día"}, {"p": "once a week", "a": "una vez a la semana", "tip": "a la semana, not \"la semana\""}, {"p": "twice a week", "a": "dos veces a la semana"}, {"p": "once a month", "a": "una vez al mes", "tip": "al = a + el"}, {"p": "once a year", "a": "una vez al año"}, {"p": "these days", "a": "estos días"}], "title_es": "¿Con qué frecuencia? Palabras de frecuencia", "instr_es": "Dilo en español."}, {"id": "freq-habits", "topic": "Frequency", "title": "Habits: translate", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "I always drink coffee", "a": "Siempre tomo café", "alts": ["Siempre bebo café"]}, {"p": "I usually get up at seven", "a": "Normalmente me levanto a las siete"}, {"p": "Sometimes I cook", "a": "A veces cocino", "alts": ["Cocino a veces"]}, {"p": "I never drink whisky", "a": "Nunca bebo whisky", "alts": ["No bebo whisky nunca"]}, {"p": "I play sports twice a week", "a": "Practico deportes dos veces a la semana", "alts": ["Hago deporte dos veces a la semana", "Practico deporte dos veces a la semana"]}, {"p": "I go to the bakery once a month", "a": "Voy a la panadería una vez al mes"}, {"p": "I drink a lot of white wine", "a": "Bebo mucho vino blanco", "alts": ["Tomo mucho vino blanco"]}, {"p": "I almost never eat meat", "a": "Casi nunca como carne"}, {"p": "I listen to Latin music every day", "a": "Escucho música latina todos los días"}, {"p": "I travel once a year", "a": "Viajo una vez al año"}, {"p": "I eat rice twice a day", "a": "Como arroz dos veces al día"}, {"p": "I often swim in the pool", "a": "A menudo nado en la piscina", "alts": ["Nado en la piscina a menudo"]}], "title_es": "Hábitos: traduce", "instr_es": "Dilo en español."}, {"id": "freq-ask", "topic": "Frequency", "title": "Ask ¿Con qué frecuencia…?", "instr": "Ask the question in Spanish (tú).", "n": 5, "items": [{"p": "How often do you drink wine?", "a": "¿Con qué frecuencia bebes vino?", "alts": ["¿Con qué frecuencia tomas vino?"]}, {"p": "How often do you play sports?", "a": "¿Con qué frecuencia practicas deportes?"}, {"p": "How often do you cook?", "a": "¿Con qué frecuencia cocinas?"}, {"p": "How often do you travel?", "a": "¿Con qué frecuencia viajas?"}, {"p": "How often do you eat paella?", "a": "¿Con qué frecuencia comes paella?"}, {"p": "How often do you listen to the radio?", "a": "¿Con qué frecuencia escuchas la radio?"}, {"p": "How often do you study Spanish?", "a": "¿Con qué frecuencia estudias español?"}, {"p": "Do you drink wine?", "a": "¿Bebes vino?"}, {"p": "Where do you usually travel to?", "a": "¿Adónde viajas normalmente?"}], "tip": "frecuencia: with a c, singular.", "title_es": "Pregunta: ¿Con qué frecuencia…?", "instr_es": "Haz la pregunta en español (tú)."}, {"id": "freq-answer", "topic": "Frequency", "title": "Answer about your habits", "instr": "Answer each question about yourself. These are open answers, so check against the example.", "n": 4, "items": [{"open": true, "pe": "How often do you play sports?", "p": "¿Con qué frecuencia practicas deportes?", "a": "Practico deportes dos veces a la semana."}, {"open": true, "pe": "Do you drink wine?", "p": "¿Bebes vino?", "a": "Sí, bebo vino a veces, pero nunca bebo whisky."}, {"open": true, "pe": "How often do you cook?", "p": "¿Con qué frecuencia cocinas?", "a": "Cocino casi todos los días."}, {"open": true, "pe": "How often do you travel?", "p": "¿Con qué frecuencia viajas?", "a": "Viajo una vez al año."}, {"open": true, "pe": "What do you usually have for breakfast?", "p": "¿Qué desayunas normalmente?", "a": "Normalmente desayuno huevos y café."}, {"open": true, "pe": "How often do you study Spanish?", "p": "¿Con qué frecuencia estudias español?", "a": "Estudio español todos los días."}], "title_es": "Habla de tus hábitos", "instr_es": "Responde a cada pregunta sobre ti. Son respuestas abiertas: compáralas con el ejemplo."}, {"id": "gustar-build", "topic": "Gustar & likes", "title": "Who likes what? (gusta / gustan)", "instr": "Say it in Spanish. A fresh mix every time.", "n": 6, "gen": "gustar", "args": {}, "tip": "gusta + one thing or a verb; gustan + plural things. me, te, le, nos, os, les.", "new": true, "title_es": "¿A quién le gusta qué? (gusta / gustan)", "instr_es": "Dilo en español. Una mezcla nueva cada vez."}, {"id": "gustar-gap", "topic": "Gustar & likes", "title": "gusta or gustan? Fill the gap", "instr": "Type gusta or gustan.", "n": 6, "items": [{"pe": "I like football.", "p": "Me ___ el fútbol.", "a": "gusta"}, {"pe": "He / She likes cats.", "p": "Le ___ los gatos.", "a": "gustan"}, {"pe": "I like your eyes.", "p": "Me ___ tus ojos.", "a": "gustan", "tip": "ojos is plural"}, {"pe": "Do you like the bakery?", "p": "¿Te ___ la panadería?", "a": "gusta"}, {"pe": "We like dogs.", "p": "Nos ___ los perros.", "a": "gustan"}, {"pe": "I don't like soda.", "p": "No me ___ el refresco.", "a": "gusta"}, {"pe": "They like to eat.", "p": "Les ___ comer.", "a": "gusta", "tip": "verb → gusta"}, {"pe": "I like to dance and sing.", "p": "Me ___ bailar y cantar.", "a": "gusta"}, {"pe": "Do you all like magazines? (Spain)", "p": "¿Os ___ las revistas?", "a": "gustan"}, {"pe": "He / She likes spicy food.", "p": "Le ___ la comida picante.", "a": "gusta"}], "new": true, "title_es": "¿Gusta o gustan? Completa el hueco", "instr_es": "Escribe gusta o gustan."}, {"id": "gustar-strength", "topic": "Gustar & likes", "title": "Love it, hate it", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "I like it a lot", "a": "Me gusta mucho"}, {"p": "I don't like it at all", "a": "No me gusta nada"}, {"p": "I hate dogs", "a": "Odio los perros"}, {"p": "I like to eat", "a": "Me gusta comer"}, {"p": "I like Matías, but he's just a friend", "a": "Me gusta Matías, pero él es solo un amigo"}, {"p": "I like spicy food", "a": "Me gusta la comida picante"}, {"p": "I don't like soda", "a": "No me gusta el refresco", "tip": "use the article: el refresco"}, {"p": "For example, I like football", "a": "Por ejemplo, me gusta el fútbol"}], "new": true, "title_es": "Me encanta, lo odio", "instr_es": "Dilo en español."}, {"id": "gustar-ask", "topic": "Gustar & likes", "title": "Ask about likes", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "What do you like to eat?", "a": "¿Qué te gusta comer?"}, {"p": "Why do you like it? (tú)", "a": "¿Por qué te gusta?"}, {"p": "Why do you like it? (formal)", "a": "¿Por qué le gusta?"}, {"p": "Because I like spicy food", "a": "Porque me gusta la comida picante"}, {"p": "Do you like the bakery?", "a": "¿Te gusta la panadería?"}, {"p": "Do you like cats? (tú)", "a": "¿Te gustan los gatos?"}, {"p": "Do they like football?", "a": "¿Les gusta el fútbol?"}, {"p": "Does she like red wine?", "a": "¿Le gusta el vino tinto?"}], "title_es": "Pregunta por los gustos", "instr_es": "Dilo en español."}, {"id": "food-vocab", "topic": "Food & drinks", "title": "Food words", "instr": "Give the Spanish word, with its article.", "n": 7, "items": [{"p": "egg", "a": "el huevo"}, {"p": "rice", "a": "el arroz"}, {"p": "chicken salad", "a": "la ensalada de pollo"}, {"p": "meat", "a": "la carne"}, {"p": "ice cream", "a": "el helado"}, {"p": "paella", "a": "la paella"}, {"p": "breakfast", "a": "el desayuno"}, {"p": "dinner", "a": "la cena"}, {"p": "lunch / food", "a": "la comida"}, {"p": "bakery", "a": "la panadería"}, {"p": "restaurant", "a": "el restaurante"}, {"p": "sugar", "a": "el azúcar"}, {"p": "milk", "a": "la leche"}], "title_es": "Palabras de comida", "instr_es": "Escribe la palabra en español, con su artículo."}, {"id": "food-drinks", "topic": "Food & drinks", "title": "Drinks", "instr": "Give the Spanish, with the article.", "n": 6, "items": [{"p": "water", "a": "el agua"}, {"p": "cold water", "a": "el agua fría", "alts": ["agua fría"]}, {"p": "beer", "a": "la cerveza"}, {"p": "soda / soft drink", "a": "el refresco"}, {"p": "red wine", "a": "el vino tinto"}, {"p": "white wine", "a": "el vino blanco"}, {"p": "juice (Latin America / Spain)", "a": "el jugo / el zumo"}, {"p": "black coffee", "a": "el café negro", "alts": ["el café solo"], "tip": "In Spain: un café solo"}, {"p": "an iced coffee", "a": "un café con hielo"}, {"p": "ice", "a": "el hielo"}, {"p": "a cup", "a": "una taza"}], "title_es": "Bebidas", "instr_es": "Escríbelo en español, con el artículo."}, {"id": "food-describe", "topic": "Food & drinks", "title": "Describe food & drink", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "sweet", "a": "dulce"}, {"p": "spicy", "a": "picante"}, {"p": "hot (food, drinks)", "a": "caliente", "tip": "cálido is for weather"}, {"p": "warm (weather)", "a": "cálido"}, {"p": "cold (fem.)", "a": "fría"}, {"p": "It tastes very good!", "a": "¡Sabe muy bien!"}, {"p": "The food is very good (right now, estar)", "a": "La comida está muy buena"}, {"p": "bad food", "a": "la comida mala", "alts": ["comida mala"]}, {"p": "It's very sweet", "a": "Está muy dulce"}, {"p": "It has a lot of sugar", "a": "Tiene mucho azúcar", "alts": ["Tiene mucha azúcar"]}, {"p": "small / big", "a": "pequeño / grande"}], "title_es": "Describe la comida y la bebida", "instr_es": "Dilo en español."}, {"id": "food-wants", "topic": "Food & drinks", "title": "Hungry? Wants & orders", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "I'm hungry", "a": "Tengo hambre"}, {"p": "I'm very hungry, do you (all) want to eat?", "a": "Tengo mucha hambre, ¿queréis comer?", "tip": "hambre is a noun: mucha hambre"}, {"p": "I want this", "a": "Quiero esto"}, {"p": "What do you want to drink?", "a": "¿Qué quieres tomar?"}, {"p": "Let's go have a beer", "a": "Vamos a tomar una cerveza"}, {"p": "My friend (f) wants a soda", "a": "Mi amiga quiere un refresco"}, {"p": "My wife is going to have a coffee", "a": "Mi esposa va a tomar un café"}, {"p": "We want to drink beer", "a": "Queremos tomar cerveza", "tip": "queremos, no \"ie\""}, {"p": "She wants a beer too", "a": "Ella también quiere una cerveza", "alts": ["También quiere una cerveza"]}, {"p": "But I don't eat meat", "a": "Pero no como carne"}, {"p": "I don't drink milk", "a": "No tomo leche", "alts": ["No bebo leche"], "tip": "no goes before the verb"}, {"p": "You're not going to drink anything?", "a": "¿No vas a tomar nada?"}], "new": true, "title_es": "¿Tienes hambre? Querer y pedir", "instr_es": "Dilo en español."}, {"id": "cafe-order", "topic": "Café role-play", "title": "Order a drink (con / sin)", "instr": "Order exactly this, in this order.", "n": 5, "items": [{"p": "I want a coffee with milk", "a": "Quiero un café con leche"}, {"p": "I want a black coffee without cream", "a": "Quiero un café negro sin crema"}, {"p": "I want a hot black coffee", "a": "Quiero un café negro caliente"}, {"p": "I want a black coffee, hot, without sugar and in a big cup", "a": "Quiero un café negro, caliente, sin azúcar y en una taza grande"}, {"p": "I want an iced coffee without sugar", "a": "Quiero un café con hielo sin azúcar"}, {"p": "I want a coffee with milk and sugar", "a": "Quiero un café con leche y azúcar", "alts": ["Quiero un café con leche y con azúcar"]}, {"p": "I want a cold water, without ice", "a": "Quiero un agua fría, sin hielo", "tip": "un agua (stressed a-)"}, {"p": "We want two beers", "a": "Queremos dos cervezas"}, {"p": "My wife wants a red wine and I want a white wine", "a": "Mi esposa quiere un vino tinto y yo quiero un vino blanco"}, {"p": "A small coffee without milk, please", "a": "Un café pequeño sin leche, por favor"}], "title_es": "Pide una bebida (con / sin)", "instr_es": "Pide exactamente esto, en este orden."}, {"id": "cafe-complain", "topic": "Café role-play", "title": "Complain politely", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "Excuse me, this coffee is cold", "a": "Disculpa, este café está frío", "alts": ["Disculpe, este café está frío"]}, {"p": "This coffee is very, very hot!", "a": "¡Este café está muy, muy caliente!"}, {"p": "It's very good, but it's very sweet", "a": "Está muy bien, pero está muy dulce", "alts": ["Está muy bueno, pero está muy dulce"]}, {"p": "It has a lot of sugar", "a": "Tiene mucho azúcar", "alts": ["Tiene mucha azúcar"]}, {"p": "The cup is very small", "a": "La taza es muy pequeña"}, {"p": "Now what?", "a": "¿Y ahora qué?"}, {"p": "I don't drink milk", "a": "No tomo leche"}], "title_es": "Quéjate con educación", "instr_es": "Dilo en español."}, {"id": "cafe-waiter", "topic": "Café role-play", "title": "The waiter's lines", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "Hello, welcome. What would you like to drink?", "a": "Hola, bienvenido. ¿Qué quieres tomar?", "alts": ["Hola, bienvenida. ¿Qué quieres tomar?"]}, {"p": "With or without milk?", "a": "¿Con leche o sin leche?"}, {"p": "Sorry. Wait a moment (formal)", "a": "Perdón. Espere un poco"}, {"p": "OK. Wait a minute (tú)", "a": "Bueno. Espera un minuto"}, {"p": "Here you go", "a": "Aquí tienes"}, {"p": "Anything else?", "a": "¿Algo más?"}, {"p": "Nothing else", "a": "Nada más"}, {"p": "Where is the toilet?", "a": "¿Dónde está el baño?"}, {"p": "Over there", "a": "Por allá"}, {"p": "The toilet is closed", "a": "El baño está cerrado"}], "title_es": "Las frases del camarero", "instr_es": "Dilo en español."}, {"id": "cafe-dialogue", "topic": "Café role-play", "title": "Mini-dialogue at the café", "instr": "Translate the whole dialogue into Spanish.", "n": 6, "sets": [[{"p": "Waiter: Hello, welcome. What would you like to drink?", "a": "Hola, bienvenido. ¿Qué quieres tomar?", "alts": ["Hola, bienvenida. ¿Qué quieres tomar?"]}, {"p": "You: I'd like a coffee.", "a": "Quiero un café."}, {"p": "Waiter: Perfect. With or without milk?", "a": "Perfecto. ¿Con leche o sin leche?"}, {"p": "You: Without milk. I don't drink milk.", "a": "Sin leche. No tomo leche."}, {"p": "Waiter: Here you go.", "a": "Aquí tienes."}, {"p": "You: Thanks. It's very good!", "a": "Gracias. ¡Está muy bueno!"}], [{"p": "You: Excuse me, this coffee is cold.", "a": "Disculpa, este café está frío.", "alts": ["Disculpe, este café está frío."]}, {"p": "Waiter: Sorry. Wait a moment.", "a": "Perdón. Espere un poco."}, {"p": "You: I want a hot black coffee, without sugar and in a big cup.", "a": "Quiero un café negro caliente, sin azúcar y en una taza grande."}, {"p": "Waiter: OK. Wait a minute.", "a": "Bueno. Espera un minuto."}, {"p": "You: It tastes very good! Where is the toilet?", "a": "¡Sabe muy bien! ¿Dónde está el baño?"}, {"p": "Waiter: Over there, but it's under maintenance.", "a": "Por allá, pero está en mantenimiento."}]], "title_es": "Minidiálogo en el café", "instr_es": "Traduce todo el diálogo al español."}, {"id": "money-howmuch", "topic": "Money & shopping", "title": "How much? How many?", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "How much does it cost?", "a": "¿Cuánto cuesta?"}, {"p": "How much do they cost?", "a": "¿Cuánto cuestan?"}, {"p": "It costs too much", "a": "Cuesta demasiado"}, {"p": "Does it cost too much?", "a": "¿Cuesta demasiado?"}, {"p": "It's too much", "a": "Es demasiado"}, {"p": "How many pesos do you have?", "a": "¿Cuántos pesos tienes?"}, {"p": "How many are there?", "a": "¿Cuántos hay?"}, {"p": "There are ten here", "a": "Hay diez aquí"}, {"p": "cheap / expensive", "a": "barato / caro"}, {"p": "It's not much money", "a": "No es mucho dinero"}], "title_es": "¿Cuánto? ¿Cuántos?", "instr_es": "Dilo en español."}, {"id": "money-prices", "topic": "Money & shopping", "title": "Shopping prices", "instr": "Say it in Spanish. A fresh set every time.", "n": 5, "gen": "prices", "args": {"mode": "shop"}, "tip": "¿Cuánto cuesta…? for one thing, ¿Cuánto cuestan…? for several.", "new": true, "title_es": "Precios en la tienda", "instr_es": "Dilo en español. Una serie nueva cada vez."}, {"id": "money-pay", "topic": "Money & shopping", "title": "Paying the bill", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "Can I pay?", "a": "¿Puedo pagar?"}, {"p": "I'm going to pay", "a": "Voy a pagar"}, {"p": "No, you're not going to pay", "a": "No, tú no vas a pagar", "alts": ["No, no vas a pagar"]}, {"p": "Who is going to pay?", "a": "¿Quién va a pagar?"}, {"p": "She wants to pay", "a": "Ella quiere pagar", "alts": ["Quiere pagar"]}, {"p": "We want to pay for the beers", "a": "Queremos pagar las cervezas"}, {"p": "We want to pay for them (the beers)", "a": "Queremos pagarlas", "alts": ["Las queremos pagar"], "tip": "the pronoun attaches to the infinitive"}, {"p": "I only have dollars", "a": "Solo tengo dólares"}, {"p": "Do you have pesos? (formal)", "a": "¿Tiene usted pesos?", "alts": ["¿Tiene pesos?"]}, {"p": "I have money too", "a": "También tengo dinero"}, {"p": "I don't have pesos", "a": "No tengo pesos"}], "title_es": "Pagar la cuenta", "instr_es": "Dilo en español."}, {"id": "money-buysell", "topic": "Money & shopping", "title": "Buying & selling", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "I buy", "a": "Compro", "tip": "compró (accent) = he/she bought"}, {"p": "What are you buying?", "a": "¿Qué compras?"}, {"p": "What did you buy?", "a": "¿Qué compraste?"}, {"p": "What can you buy?", "a": "¿Qué puedes comprar?"}, {"p": "What am I going to buy?", "a": "¿Qué voy a comprar?"}, {"p": "I'm selling it", "a": "Lo vendo"}, {"p": "I'm selling the houses", "a": "Vendo las casas"}, {"p": "They're selling us something", "a": "Nos venden algo"}, {"p": "They're selling it to us", "a": "Nos lo venden"}, {"p": "Why won't they sell it to me?", "a": "¿Por qué no me lo venden?"}], "title_es": "Comprar y vender", "instr_es": "Dilo en español."}, {"id": "ir-where", "topic": "Going out & plans (ir)", "title": "ir: where are you going?", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "I'm going now", "a": "Voy ahora"}, {"p": "Are you going? (tú)", "a": "¿Vas?"}, {"p": "Is he going?", "a": "¿Va?"}, {"p": "Where are you going?", "a": "¿Adónde vas?"}, {"p": "I'm going to the toilet", "a": "Voy al baño", "tip": "a + el = al"}, {"p": "Let's go to the hotel", "a": "Vamos al hotel"}, {"p": "I'm going to the Fernández restaurant", "a": "Voy al restaurante Fernández"}, {"p": "When are you (all) going? (Spain)", "a": "¿Cuándo vais?"}, {"p": "I'm not going now", "a": "No voy ahora"}, {"p": "We're leaving", "a": "Nos vamos"}, {"p": "Shall we go at 6:30?", "a": "¿Vamos a las seis y media?"}], "title_es": "Ir: ¿adónde vas?", "instr_es": "Dilo en español."}, {"id": "ir-a-inf", "topic": "Going out & plans (ir)", "title": "ir a + infinitive (plans)", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "What are you going to do later?", "a": "¿Qué vas a hacer más tarde?"}, {"p": "Are you going to eat?", "a": "¿Vas a comer?"}, {"p": "I'm going to pay", "a": "Voy a pagar"}, {"p": "We're going to eat", "a": "Vamos a comer"}, {"p": "She's going to have a coffee", "a": "Va a tomar un café", "alts": ["Ella va a tomar un café"]}, {"p": "I'm going to try to see them", "a": "Voy a intentar verlos"}, {"p": "We're not going to do anything", "a": "No vamos a hacer nada"}, {"p": "What are we doing today?", "a": "¿Qué vamos a hacer hoy?"}, {"p": "I'm going to drop by to visit you", "a": "Voy a pasar a visitarte"}, {"p": "They're going to travel", "a": "Van a viajar", "alts": ["Ellos van a viajar"]}], "tip": "ir a + infinitive: don't drop the a (vamos a hacer, not vamos hacer).", "title_es": "ir a + infinitivo (planes)", "instr_es": "Dilo en español."}, {"id": "ir-al", "topic": "Going out & plans (ir)", "title": "al, a la, a: fill the gap", "instr": "Type al, a la or a.", "n": 6, "items": [{"pe": "I'm going to the toilet.", "p": "Voy ___ baño.", "a": "al"}, {"pe": "Let's go to the hotel.", "p": "Vamos ___ hotel.", "a": "al"}, {"pe": "I'm going to the bakery.", "p": "Voy ___ panadería.", "a": "a la"}, {"pe": "Are you (formal) going to the café too?", "p": "¿Usted también va ___ café?", "a": "al"}, {"pe": "I'm going to the restaurant.", "p": "Voy ___ restaurante.", "a": "al"}, {"pe": "We're going to Juan's house.", "p": "Vamos ___ casa de Juan.", "a": "a la"}, {"pe": "Are you going to the supermarket?", "p": "¿Vas ___ supermercado?", "a": "al"}, {"pe": "I'm going to Singapore.", "p": "Voy ___ Singapur.", "a": "a", "tip": "no article before most country/city names"}, {"pe": "I'm going to the meeting.", "p": "Voy ___ reunión.", "a": "a la"}], "title_es": "al, a la, a: completa el hueco", "instr_es": "Escribe al, a la o a."}, {"id": "ir-invite", "topic": "Going out & plans (ir)", "title": "Invite & make plans", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "There's a bar that has cheap beer", "a": "Hay un bar que tiene cerveza barata", "tip": "bar is masculine: un bar"}, {"p": "It's five minutes by car from here", "a": "Está a cinco minutos en coche desde aquí"}, {"p": "Do you (formal) want to come to the house?", "a": "¿Quiere venir a la casa?"}, {"p": "I can't today", "a": "Hoy no puedo"}, {"p": "Not today", "a": "Hoy no"}, {"p": "Come here", "a": "Ven aquí", "alts": ["Ven acá"]}, {"p": "Let's go have a drink", "a": "Vamos a tomar algo"}, {"p": "I'm going with you", "a": "Voy contigo"}], "title_es": "Invitar y hacer planes", "instr_es": "Dilo en español."}, {"id": "pim-who", "topic": "Pimsleur: plans with friends", "title": "With whom? contigo, con quién, solo", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "Who are you going with?", "a": "¿Con quién vas?"}, {"p": "Are you going alone? (to a woman)", "a": "¿Vas sola?"}, {"p": "I'm going alone (man)", "a": "Voy solo"}, {"p": "I want to talk with you at 4:30", "a": "Quiero hablar contigo a las cuatro y media", "tip": "with you = contigo"}, {"p": "No, with my wife", "a": "No, con mi esposa"}, {"p": "No, with my friend Matías", "a": "No, con mi amigo Matías"}, {"p": "Are you going with your wife?", "a": "¿Vas con tu esposa?"}, {"p": "Just us?", "a": "¿Solo nosotros?"}, {"p": "Just you? (to a woman)", "a": "¿Tú sola?"}, {"p": "Who are you talking to?", "a": "¿Con quién hablas?"}], "new": true, "title_es": "¿Con quién? contigo, con quién, solo", "instr_es": "Dilo en español."}, {"id": "pim-together", "topic": "Pimsleur: plans with friends", "title": "Together & with us", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "We're going to do it together", "a": "Vamos a hacerlo juntos"}, {"p": "We want to eat together", "a": "Queremos comer juntos"}, {"p": "My wife wants to eat with us", "a": "Mi esposa quiere comer con nosotros"}, {"p": "Can you eat with us?", "a": "¿Puedes comer con nosotros?", "tip": "with us = con nosotros"}, {"p": "We want to eat with you and your friend (f)", "a": "Queremos comer contigo y con tu amiga"}, {"p": "OK. I'll go with you all", "a": "Bueno. Voy con ustedes", "alts": ["Bueno. Voy con vosotros"]}, {"p": "He doesn't want to eat alone", "a": "No quiere comer solo"}, {"p": "My wife is here with us", "a": "Mi esposa está aquí con nosotros"}, {"p": "He's with your friend Sofía", "a": "Él está con tu amiga Sofía", "alts": ["Está con tu amiga Sofía"]}], "new": true, "title_es": "Juntos y con nosotros", "instr_es": "Dilo en español."}, {"id": "pim-plans", "topic": "Pimsleur: plans with friends", "title": "Plans: querer, hacer & demasiado", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "We want to eat now", "a": "Queremos comer ahora"}, {"p": "We don't want to eat early", "a": "No queremos comer temprano"}, {"p": "What do you want to do?", "a": "¿Qué quieres hacer?"}, {"p": "What are we going to do?", "a": "¿Qué vamos a hacer?"}, {"p": "It's too much", "a": "Es demasiado"}, {"p": "It's too much time", "a": "Es demasiado tiempo"}, {"p": "We have lots of friends here", "a": "Tenemos muchos amigos aquí"}, {"p": "There are lots of things there", "a": "Hay muchas cosas allí", "tip": "cosa is feminine: muchas cosas"}, {"p": "We're going to do something in 40 or 45 minutes", "a": "Vamos a hacer algo en cuarenta o cuarenta y cinco minutos"}, {"p": "Who's going to eat? Us?", "a": "¿Quién va a comer? ¿Nosotros?"}], "new": true, "title_es": "Planes: querer, hacer y demasiado", "instr_es": "Dilo en español."}, {"id": "pim-dialogue", "topic": "Pimsleur: plans with friends", "title": "Mini-dialogue: making plans", "instr": "Translate the whole dialogue into Spanish.", "n": 6, "sets": [[{"p": "Hi Martínez. My friend Sebastián and I want to eat.", "a": "Hola, Martínez. Mi amigo Sebastián y yo queremos comer."}, {"p": "Can you eat with us?", "a": "¿Puedes comer con nosotros?"}, {"p": "Yes! Where are you (all) going to eat? (Spain)", "a": "¡Sí! ¿Dónde vais a comer?"}, {"p": "At the Fernández restaurant. There are lots of things there.", "a": "En el restaurante Fernández. Hay muchas cosas allí."}, {"p": "And we also want to talk with you.", "a": "Y también queremos hablar contigo."}, {"p": "OK. I'll go with you all.", "a": "Bueno. Voy con ustedes.", "alts": ["Bueno. Voy con vosotros."]}], [{"p": "Hi, is your husband here?", "a": "Hola, ¿está tu esposo aquí?"}, {"p": "He's not here. I have a friend, Sofía. She's here.", "a": "Él no está aquí. Tengo una amiga, Sofía. Ella está aquí."}, {"p": "Who are you going with?", "a": "¿Con quién vas?"}, {"p": "With my friend Matías.", "a": "Con mi amigo Matías."}, {"p": "Is Matías just your friend?", "a": "¿Matías es solo tu amigo?"}, {"p": "Yes! I like Matías, but he's just a friend.", "a": "¡Sí! Me gusta Matías, pero él es solo un amigo."}]], "new": true, "title_es": "Minidiálogo: hacer planes", "instr_es": "Traduce todo el diálogo al español."}, {"id": "verb-ar", "topic": "Key verbs", "title": "Conjugate a regular -ar verb", "instr": "Write each form in the present tense. A different verb every time.", "n": 6, "gen": "conj", "args": {"verbs": ["hablar", "trabajar", "estudiar", "escuchar", "cocinar", "bailar", "cantar", "caminar", "viajar", "tomar", "comprar", "pagar", "cenar", "desayunar", "practicar", "nadar", "llegar", "terminar", "mirar", "llevar", "intentar"]}, "tip": "-ar endings: -o, -as, -a, -amos, -áis, -an.", "title_es": "Conjuga un verbo regular en -ar", "instr_es": "Escribe cada forma en presente. Un verbo distinto cada vez."}, {"id": "verb-er-ir", "topic": "Key verbs", "title": "Conjugate a regular -er / -ir verb", "instr": "Write each form in the present tense.", "n": 6, "gen": "conj", "args": {"verbs": ["comer", "beber", "aprender", "vender", "leer", "deber", "vivir", "escribir", "abrir"]}, "tip": "-er: -o, -es, -e, -emos, -éis, -en. -ir: same except -imos, -ís.", "title_es": "Conjuga un verbo regular en -er / -ir", "instr_es": "Escribe cada forma en presente."}, {"id": "verb-big4", "topic": "Key verbs", "title": "The big irregulars: ser, estar, ir, tener", "instr": "Write each form in the present tense.", "n": 6, "gen": "conj", "args": {"verbs": ["ser", "estar", "ir", "tener"]}, "title_es": "Los grandes irregulares: ser, estar, ir, tener", "instr_es": "Escribe cada forma en presente."}, {"id": "verb-irregular", "topic": "Key verbs", "title": "Irregular & stem-changing verbs", "instr": "Write each form in the present tense.", "n": 6, "gen": "conj", "args": {"verbs": ["querer", "poder", "saber", "hacer", "venir", "entender", "jugar", "salir", "empezar", "cerrar", "dormir", "preferir", "ver", "repetir"]}, "tip": "Stem changers keep the normal stem for nosotros/vosotros: quiero but queremos.", "title_es": "Verbos irregulares y con cambio de raíz", "instr_es": "Escribe cada forma en presente."}, {"id": "verb-reflexive", "topic": "Key verbs", "title": "Reflexive verbs: levantarse, ducharse…", "instr": "Write each form, including me / te / se / nos / os / se.", "n": 6, "gen": "conj", "args": {"verbs": ["levantarse", "ducharse", "llamarse", "despertarse"]}, "new": true, "title_es": "Verbos reflexivos: levantarse, ducharse…", "instr_es": "Escribe cada forma, con me / te / se / nos / os / se."}, {"id": "verb-mix", "topic": "Key verbs", "title": "Quick-fire: mixed verbs & persons", "instr": "Give the right form of each verb.", "n": 6, "gen": "conjmix", "args": {}, "title_es": "Ronda rápida: verbos y personas mezclados", "instr_es": "Escribe la forma correcta de cada verbo."}, {"id": "verb-pronouns", "topic": "Key verbs", "title": "Pronouns on infinitives (verlos, visitarme…)", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "I want to see them", "a": "Quiero verlos", "alts": ["Los quiero ver"]}, {"p": "I want to cancel it", "a": "Quiero cancelarlo", "alts": ["Lo quiero cancelar"]}, {"p": "I want to show you something", "a": "Quiero mostrarte algo", "alts": ["Te quiero mostrar algo"]}, {"p": "I want to get ready", "a": "Quiero prepararme", "alts": ["Me quiero preparar"]}, {"p": "Do you (formal) want to visit me?", "a": "¿Quiere visitarme?", "alts": ["¿Me quiere visitar?"]}, {"p": "I don't want to force you", "a": "No quiero obligarte", "alts": ["No te quiero obligar"]}, {"p": "I'm going to invite you", "a": "Voy a invitarte", "alts": ["Te voy a invitar"]}, {"p": "I must identify it", "a": "Debo identificarlo", "alts": ["Lo debo identificar"]}, {"p": "I'm trying to publish it", "a": "Intento publicarlo", "alts": ["Lo intento publicar"]}, {"p": "I don't want to imagine it", "a": "No quiero imaginarlo", "alts": ["No lo quiero imaginar"]}, {"p": "I want to start it now", "a": "Quiero iniciarlo ahora", "alts": ["Lo quiero iniciar ahora"]}], "tip": "Attach the pronoun to the infinitive (verlos) or put it before the conjugated verb (los quiero ver).", "title_es": "Pronombres con el infinitivo (verlos, visitarme…)", "instr_es": "Dilo en español."}, {"id": "verb-sentences", "topic": "Key verbs", "title": "querer, saber, poder in sentences", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "I don't know where it is", "a": "No sé dónde está", "tip": "dónde, not \"don\""}, {"p": "Do you know where the hotel is?", "a": "¿Sabes dónde está el hotel?"}, {"p": "I want to know", "a": "Quiero saber"}, {"p": "I want to know if he wants to invite me", "a": "Quiero saber si quiere invitarme", "tip": "si = if; sí = yes"}, {"p": "Why can't you?", "a": "¿Por qué no puedes?"}, {"p": "If you want", "a": "Si quieres"}, {"p": "If I can", "a": "Si puedo"}, {"p": "I don't want anything", "a": "No quiero nada"}, {"p": "Don't you (formal) want to eat anything?", "a": "¿No quiere comer nada?"}, {"p": "I must continue", "a": "Debo continuar"}, {"p": "I want to surf", "a": "Quiero surfear"}], "title_es": "querer, saber y poder en frases", "instr_es": "Dilo en español."}, {"id": "hob-activities", "topic": "Hobbies & activities", "title": "Activities", "instr": "Give the infinitive phrase.", "n": 7, "items": [{"p": "to talk on the phone", "a": "hablar por teléfono"}, {"p": "to listen to the radio", "a": "escuchar la radio"}, {"p": "to wear glasses", "a": "llevar gafas"}, {"p": "to do the homework", "a": "hacer las tareas"}, {"p": "to swim in the pool", "a": "nadar en la piscina"}, {"p": "to read magazines", "a": "leer revistas"}, {"p": "to play football", "a": "jugar al fútbol"}, {"p": "to travel", "a": "viajar"}, {"p": "to walk", "a": "caminar"}, {"p": "to cook", "a": "cocinar"}, {"p": "to sing", "a": "cantar"}, {"p": "to dance", "a": "bailar"}, {"p": "to watch / look at", "a": "mirar", "tip": "to see = ver"}, {"p": "to see", "a": "ver"}, {"p": "to practise sports", "a": "practicar deportes"}], "title_es": "Actividades", "instr_es": "Escribe la expresión en infinitivo."}, {"id": "hob-sentences", "topic": "Hobbies & activities", "title": "What I do: sentences", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "I listen to Latin music", "a": "Escucho música latina"}, {"p": "I play football", "a": "Juego al fútbol", "tip": "jugar → juego"}, {"p": "I read magazines", "a": "Leo revistas"}, {"p": "I swim in the pool", "a": "Nado en la piscina"}, {"p": "I cook in the kitchen", "a": "Cocino en la cocina"}, {"p": "I wear glasses", "a": "Llevo gafas"}, {"p": "Yes, I play sports. For example, surfing and badminton", "a": "Sí, practico deportes. Por ejemplo, surf y bádminton"}, {"p": "I like to dance and sing", "a": "Me gusta bailar y cantar"}, {"p": "I walk a lot", "a": "Camino mucho"}, {"p": "I want to learn Spanish", "a": "Quiero aprender español"}], "title_es": "Lo que hago: frases", "instr_es": "Dilo en español."}, {"id": "hob-free", "topic": "Hobbies & activities", "title": "Talk about your free time", "instr": "Answer about yourself. These are open answers, so check against the example.", "n": 4, "items": [{"open": true, "pe": "What do you like to do?", "p": "¿Qué te gusta hacer?", "a": "Me gusta cocinar y viajar."}, {"open": true, "pe": "Do you play sports?", "p": "¿Practicas deportes?", "a": "Sí, practico deportes. Por ejemplo, surf y bádminton."}, {"open": true, "pe": "What music do you listen to?", "p": "¿Qué música escuchas?", "a": "Escucho música latina."}, {"open": true, "pe": "Where do you usually travel to?", "p": "¿Adónde viajas normalmente?", "a": "Normalmente viajo a España."}, {"open": true, "pe": "Do you play football?", "p": "¿Juegas al fútbol?", "a": "No, no juego al fútbol, pero nado en la piscina."}], "title_es": "Habla de tu tiempo libre", "instr_es": "Responde sobre ti. Son respuestas abiertas: compáralas con el ejemplo."}, {"id": "little-questions", "topic": "Little words & questions", "title": "Question words", "instr": "Say it in Spanish.", "n": 7, "items": [{"p": "What?", "a": "¿Qué?"}, {"p": "Who?", "a": "¿Quién?"}, {"p": "How?", "a": "¿Cómo?"}, {"p": "Which?", "a": "¿Cuál?"}, {"p": "Where?", "a": "¿Dónde?"}, {"p": "When?", "a": "¿Cuándo?"}, {"p": "How much?", "a": "¿Cuánto?"}, {"p": "How many?", "a": "¿Cuántos?"}, {"p": "Why?", "a": "¿Por qué?"}, {"p": "Where to?", "a": "¿Adónde?"}, {"p": "With whom?", "a": "¿Con quién?"}, {"p": "Which book do you prefer?", "a": "¿Qué libro prefieres?"}], "title_es": "Palabras interrogativas", "instr_es": "Dilo en español."}, {"id": "little-pairs", "topic": "Little words & questions", "title": "Tricky pairs: si/sí, tu/tú, porque/por qué…", "instr": "Type the missing word.", "n": 6, "items": [{"pe": "If you want, let's go.", "p": "___ quieres, vamos. (If you want)", "a": "Si"}, {"pe": "Yes, I want to go.", "p": "___, quiero ir. (Yes)", "a": "Sí"}, {"pe": "Why can't you?", "p": "¿___ no puedes? (Why)", "a": "Por qué"}, {"pe": "Because I like spicy food.", "p": "___ me gusta la comida picante. (Because)", "a": "Porque"}, {"pe": "You're incredible.", "p": "___ eres increíble. (You)", "a": "Tú"}, {"pe": "I like your house.", "p": "Me gusta ___ casa. (your)", "a": "tu"}, {"pe": "My friend's name is Juan.", "p": "___ amigo se llama Juan. (My)", "a": "Mi"}, {"pe": "He's my friend.", "p": "___ es mi amigo. (He)", "a": "Él"}, {"pe": "The hotel is here.", "p": "___ hotel está aquí. (The)", "a": "El"}, {"pe": "The house where I live.", "p": "La casa ___ vivo. (where, not a question)", "a": "donde"}, {"pe": "Where is it?", "p": "¿___ está? (Where)", "a": "Dónde"}, {"pe": "I want this guitar.", "p": "Quiero ___ guitarra. (this)", "a": "esta"}, {"pe": "I speak Spanish and English.", "p": "Hablo español ___ inglés. (and)", "a": "e", "tip": "y → e before i-/hi-"}], "title_es": "Parejas difíciles: si/sí, tu/tú, porque/por qué…", "instr_es": "Escribe la palabra que falta."}, {"id": "little-connectors", "topic": "Little words & questions", "title": "Connectors & little words", "instr": "Say it in Spanish.", "n": 6, "items": [{"p": "but", "a": "pero", "tip": "pero = but; perro = dog"}, {"p": "also / too", "a": "también"}, {"p": "only / just", "a": "solo"}, {"p": "something", "a": "algo"}, {"p": "nothing", "a": "nada"}, {"p": "here / there", "a": "aquí / allí"}, {"p": "very well", "a": "muy bien"}, {"p": "for example", "a": "por ejemplo"}, {"p": "that's why", "a": "por eso"}, {"p": "furthermore", "a": "además"}, {"p": "Anything else?", "a": "¿Algo más?"}, {"p": "Nothing else", "a": "Nada más"}, {"p": "Many things", "a": "Muchas cosas"}, {"p": "One good thing", "a": "Una cosa buena"}, {"p": "little book (diminutive)", "a": "librito"}], "title_es": "Conectores y palabras pequeñas", "instr_es": "Dilo en español."}, {"id": "cog-words", "topic": "Cognates & word patterns", "title": "English → Spanish word patterns", "instr": "-ly → -mente, -ity → -dad, -tion → -ción. Include the article for nouns.", "n": 7, "items": [{"p": "important", "a": "importante"}, {"p": "different", "a": "diferente"}, {"p": "convenient", "a": "conveniente"}, {"p": "urgent", "a": "urgente"}, {"p": "really", "a": "realmente"}, {"p": "generally", "a": "generalmente"}, {"p": "originally", "a": "originalmente"}, {"p": "naturally", "a": "naturalmente"}, {"p": "probably", "a": "probablemente"}, {"p": "possibly", "a": "posiblemente"}, {"p": "nationality", "a": "la nacionalidad"}, {"p": "creativity", "a": "la creatividad"}, {"p": "community", "a": "la comunidad"}, {"p": "opportunity", "a": "la oportunidad"}, {"p": "explanation", "a": "la explicación"}, {"p": "conversation", "a": "la conversación"}, {"p": "experience", "a": "la experiencia"}, {"p": "difference", "a": "la diferencia"}, {"p": "generous (m)", "a": "generoso"}], "title_es": "Del inglés al español: patrones", "instr_es": "-ly → -mente, -ity → -dad, -tion → -ción. Escribe el artículo con los sustantivos."}, {"id": "cog-sentences", "topic": "Cognates & word patterns", "title": "Word patterns in sentences", "instr": "Say it in Spanish.", "n": 5, "items": [{"p": "It's important", "a": "Es importante"}, {"p": "It's very different", "a": "Es muy diferente"}, {"p": "Of course!", "a": "¡Claro!", "alts": ["¡Naturalmente!"]}, {"p": "It's probably urgent", "a": "Probablemente es urgente", "alts": ["Es probablemente urgente"]}, {"p": "It's a good opportunity", "a": "Es una buena oportunidad"}, {"p": "I generally work a lot", "a": "Generalmente trabajo mucho"}, {"p": "She's very generous", "a": "Ella es muy generosa", "alts": ["Es muy generosa"]}, {"p": "A good experience", "a": "Una buena experiencia"}], "title_es": "Patrones en frases", "instr_es": "Dilo en español."}, {"id": "fix-verbs", "topic": "Fix my mistakes", "title": "Fix the verb mistakes", "instr": "Each sentence is taken from your notes and has a mistake. Write the corrected sentence.", "n": 5, "items": [{"pe": "We want to drink beer.", "p": "Quieremos tomar cervesza.", "a": "Queremos tomar cerveza."}, {"pe": "I work in finance.", "p": "Yo soy trabajo finanzas.", "a": "Trabajo en finanzas.", "alts": ["Yo trabajo en finanzas."]}, {"pe": "I'm eating my dinner.", "p": "Soy comiendo mi cena.", "a": "Estoy comiendo mi cena."}, {"pe": "She speaks English, Chinese and Malay.", "p": "Ella hablo inges, chino y malayo.", "a": "Ella habla inglés, chino y malayo."}, {"pe": "Are you (formal) going to the café too?", "p": "¿Usted vas café también?", "a": "¿Usted también va al café?", "alts": ["¿Usted va al café también?", "¿Va usted al café también?"]}, {"pe": "My wife is going to have a coffee.", "p": "Mi esposa va tomar un café.", "a": "Mi esposa va a tomar un café."}, {"pe": "What are we going to do?", "p": "¿Qué vamos hacer?", "a": "¿Qué vamos a hacer?"}, {"pe": "It tastes very good!", "p": "Saber muy bien!", "a": "¡Sabe muy bien!"}, {"pe": "You speak very fast. Can you speak more slowly?", "p": "Tú hablas muy rápido, ¿puedes hablas más despacio?", "a": "Hablas muy rápido. ¿Puedes hablar más despacio?", "alts": ["Tú hablas muy rápido. ¿Puedes hablar más despacio?"]}, {"pe": "When are you all going? (Spain)", "p": "¿Cuándo vosotros sois vas?", "a": "¿Cuándo vais?"}, {"pe": "It's very early.", "p": "Ey muy temprano.", "a": "Es muy temprano."}], "title_es": "Corrige los errores de verbos", "instr_es": "Cada frase viene de tus apuntes y tiene un error. Escribe la frase correcta."}, {"id": "fix-order", "topic": "Fix my mistakes", "title": "Fix word order & missing words", "instr": "Each sentence is taken from your notes and has a mistake. Write the corrected sentence.", "n": 5, "items": [{"pe": "I don't drink milk.", "p": "Yo tomo no leche.", "a": "Yo no tomo leche."}, {"pe": "After eating, I work.", "p": "Después comer, yo trabajo.", "a": "Después de comer, trabajo."}, {"pe": "I quit my job last year.", "p": "Yo renuncié mi trabajo año pasado.", "a": "Renuncié a mi trabajo el año pasado."}, {"pe": "I'm going to the toilet.", "p": "Voy a baño.", "a": "Voy al baño."}, {"pe": "I'm going to the Fernández restaurant.", "p": "Voy el restaurante Fernández.", "a": "Voy al restaurante Fernández."}, {"pe": "I like soda.", "p": "Me gusta refresco.", "a": "Me gusta el refresco."}, {"pe": "Can you eat with us?", "p": "¿Puedes comer nosotros?", "a": "¿Puedes comer con nosotros?"}, {"pe": "I play sports twice a week.", "p": "Practico deportes dos veces las semana.", "a": "Practico deportes dos veces a la semana."}, {"pe": "Is there a hotel here?", "p": "¿Está hotel aquí? (quieres saber si existe un hotel)", "a": "¿Hay un hotel aquí?"}, {"pe": "We're going to do it together.", "p": "Nosotros vamos a hacer juntos. (hacer… ¿qué?)", "a": "Vamos a hacerlo juntos."}], "title_es": "Corrige el orden y las palabras que faltan", "instr_es": "Cada frase viene de tus apuntes y tiene un error. Escribe la frase correcta."}, {"id": "fix-agreement", "topic": "Fix my mistakes", "title": "Fix gender & number", "instr": "Each sentence is taken from your notes and has a mistake. Write the corrected sentence.", "n": 5, "items": [{"pe": "There are lots of things there.", "p": "Hay muchos cosas allí.", "a": "Hay muchas cosas allí."}, {"pe": "What time does the meeting start?", "p": "¿A qué hora empieza el reunión?", "a": "¿A qué hora empieza la reunión?"}, {"pe": "I like your eyes.", "p": "Me gustas tus ojos.", "a": "Me gustan tus ojos."}, {"pe": "I'm very hungry.", "p": "Yo tengo muy hambre.", "a": "Tengo mucha hambre."}, {"pe": "There's a bar.", "p": "Hay una bar.", "a": "Hay un bar."}, {"pe": "We want to pay for the beers.", "p": "Quieremos pagar la cervezas.", "a": "Queremos pagar las cervezas."}, {"pe": "My friend Sebastián and I want to eat.", "p": "Mi amigos Sebastián y yo quieremos comer.", "a": "Mi amigo Sebastián y yo queremos comer."}, {"pe": "Twice a day.", "p": "Dos vezes al dias.", "a": "Dos veces al día."}], "title_es": "Corrige el género y el número", "instr_es": "Cada frase viene de tus apuntes y tiene un error. Escribe la frase correcta."}, {"id": "fix-spelling", "topic": "Fix my mistakes", "title": "Fix pronouns & spelling slips", "instr": "Each sentence is taken from your notes and has a mistake. Write the corrected sentence.", "n": 6, "items": [{"pe": "I want to cancel it.", "p": "Quiero cancelar lo.", "a": "Quiero cancelarlo."}, {"pe": "I want to see them.", "p": "Quiero ver los.", "a": "Quiero verlos."}, {"pe": "Do you (formal) want to visit me?", "p": "¿Quiere visita me?", "a": "¿Quiere visitarme?"}, {"pe": "We want to pay for them.", "p": "Nosotros quieremos pagar las.", "a": "Nosotros queremos pagarlas.", "alts": ["Queremos pagarlas."]}, {"pe": "I know where it is.", "p": "Yo sé don está.", "a": "Yo sé dónde está."}, {"pe": "How do you say \"hola\" in Spanish?", "p": "¿Cómo se dices \"hola\" en español?", "a": "¿Cómo se dice \"hola\" en español?"}, {"pe": "It costs too much.", "p": "Questa demansiado.", "a": "Cuesta demasiado."}, {"pe": "How many pesos do you have?", "p": "¿Quantos pesos tienes?", "a": "¿Cuántos pesos tienes?"}, {"pe": "Is there time?", "p": "Ai tiempo?", "a": "¿Hay tiempo?"}, {"pe": "I want to talk later.", "p": "Quiero ablar más tarde.", "a": "Quiero hablar más tarde."}, {"pe": "Good night.", "p": "Buenas norches.", "a": "Buenas noches."}, {"pe": "I want to show you something.", "p": "Queiro mostra te algo.", "a": "Quiero mostrarte algo."}], "title_es": "Corrige los pronombres y la ortografía", "instr_es": "Cada frase viene de tus apuntes y tiene un error. Escribe la frase correcta."}, {"id": "fix-meaning", "topic": "Fix my mistakes", "title": "Fix the meaning mix-ups", "instr": "The sentence doesn't mean what you wanted. Write what you meant to say.", "n": 5, "items": [{"pe": "You said “Nos vamos en el hotel” (= We're leaving in the hotel). You meant: See you at the hotel.", "p": "Nos vamos en el hotel. (querías decir: See you at the hotel)", "a": "Nos vemos en el hotel."}, {"pe": "You said “¿Dónde quieres comer?” (= Where do you want to eat?). You meant: What do you want to eat?", "p": "¿Dónde quieres comer? (querías decir: What do you want to eat?)", "a": "¿Qué quieres comer?"}, {"pe": "“Compró un café” = He / She bought a coffee. You meant: I buy a coffee.", "p": "Compró un café. (querías decir: I buy a coffee)", "a": "Compro un café."}, {"pe": "“Por qué” = why (a question). You meant: Because I like spicy food.", "p": "Por qué me gusta la comida picante. (querías decir: Because…)", "a": "Porque me gusta la comida picante."}, {"pe": "“sí” = yes. You meant: I want to know if he wants to invite me.", "p": "Quiero saber sí quiere invitarme. (querías decir: …if he wants…)", "a": "Quiero saber si quiere invitarme."}, {"pe": "I'm from Singapore. I'm Singaporean. (Use the Spanish words.)", "p": "Soy de Singapore. Soy Singaporean. (en español, por favor)", "a": "Soy de Singapur. Soy singapurense."}, {"pe": "“Me” = me / myself, not “my”. You meant: My house is big.", "p": "Me casa es grande. (querías decir: My house is big)", "a": "Mi casa es grande."}, {"pe": "How are you? (to your boss, formal)", "p": "¿Cómo estás? (a tu jefe, formal)", "a": "¿Cómo está usted?", "alts": ["¿Cómo está?"]}], "title_es": "Corrige las confusiones de significado", "instr_es": "La frase no dice lo que querías decir. Escribe lo que querías decir."}];
+const STORE_KEY = "jn-spanish-concepts-v1";
+const MIN = 60e3, DAY = 864e5, LEARNED_DAYS = 7;
+const EMOJI = {"Greetings & courtesy":"👋","Introductions & personal info":"🙋","Work & professions":"💼","Pronouns, ser & estar":"🧩","Classroom phrases":"🏫","Numbers":"🔢","Days & calendar":"📅","Time & ¿A qué hora?":"⏰","Daily routine & meals":"🌅","Frequency":"🔁","Gustar & likes":"❤️","Food & drinks":"🥘","Café role-play":"☕","Money & shopping":"💶","Going out & plans (ir)":"🚶","Pimsleur: plans with friends":"🎧","Key verbs":"🔤","Hobbies & activities":"⚽","Little words & questions":"❓","Cognates & word patterns":"🔗","Fix my mistakes":"🛠️"};
+const TOPICS = [...new Set(CONCEPTS.map(c => c.topic))];
+const BYID = Object.fromEntries(CONCEPTS.map(c => [c.id, c]));
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+
+/* ---------- random helpers ---------- */
+const rnd = n => Math.floor(Math.random() * n);
+const pick = a => a[rnd(a.length)];
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const sample = (a, k) => shuffle(a).slice(0, k);
+const range = (a, b) => Array.from({length: b - a + 1}, (_, i) => a + i);
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+/* ---------- numbers ---------- */
+const UNITS = ["cero","uno","dos","tres","cuatro","cinco","seis","siete","ocho","nueve","diez","once","doce","trece","catorce","quince","dieciséis","diecisiete","dieciocho","diecinueve","veinte","veintiuno","veintidós","veintitrés","veinticuatro","veinticinco","veintiséis","veintisiete","veintiocho","veintinueve"];
+const TENS = {3:"treinta",4:"cuarenta",5:"cincuenta",6:"sesenta",7:"setenta",8:"ochenta",9:"noventa"};
+const HUNDREDS = {1:"ciento",2:"doscientos",3:"trescientos",4:"cuatrocientos",5:"quinientos",6:"seiscientos",7:"setecientos",8:"ochocientos",9:"novecientos"};
+function numWords(n){
+  if (n < 30) return UNITS[n];
+  if (n < 100) { const t = Math.floor(n / 10), u = n % 10; return TENS[t] + (u ? " y " + UNITS[u] : ""); }
+  if (n === 100) return "cien";
+  if (n < 1000) { const h = Math.floor(n / 100), r = n % 100; return HUNDREDS[h] + (r ? " " + numWords(r) : ""); }
+  return String(n);
+}
+function numM(n){ return numWords(n).replace(/veintiuno$/, "veintiún").replace(/(^| )uno$/, "$1un"); } // before masculine noun
+function numF(n){ return numWords(n).replace(/veintiuno$/, "veintiuna").replace(/(^| )uno$/, "$1una"); } // before feminine noun
+function oneEnding(){ return Math.random() < .45 ? pick([21,31,41,51,61,71,81,91]) : pick(range(2, 99)); }
+
+/* ---------- verbs ---------- */
+const PERSONS = ["yo","tú","él / ella / usted","nosotros","vosotros","ellos / ellas / ustedes"];
+const PERSONS_EN = ["I","you (tú)","he / she / you (usted)","we","you all (vosotros, Spain)","they / you all (ustedes)"];
+const VERB_EN = {hablar:"to speak",trabajar:"to work",estudiar:"to study",escuchar:"to listen",cocinar:"to cook",bailar:"to dance",cantar:"to sing",caminar:"to walk",viajar:"to travel",tomar:"to take / drink",comprar:"to buy",pagar:"to pay",cenar:"to have dinner",desayunar:"to have breakfast",practicar:"to practise",nadar:"to swim",llegar:"to arrive",terminar:"to finish",mirar:"to look at / watch",llevar:"to wear / carry",intentar:"to try",
+ comer:"to eat",beber:"to drink",aprender:"to learn",vender:"to sell",leer:"to read",deber:"must / to owe",vivir:"to live",escribir:"to write",abrir:"to open",
+ ser:"to be (identity, origin)",estar:"to be (location, state)",ir:"to go",tener:"to have",querer:"to want / to love",poder:"to be able to (can)",saber:"to know (facts)",hacer:"to do / make",venir:"to come",entender:"to understand",jugar:"to play",salir:"to leave / go out",empezar:"to start",cerrar:"to close",dormir:"to sleep",preferir:"to prefer",ver:"to see",repetir:"to repeat",
+ levantarse:"to get up",ducharse:"to shower",llamarse:"to be called",despertarse:"to wake up"};
+const IRR = {
+ ser:"soy eres es somos sois son", estar:"estoy estás está estamos estáis están", ir:"voy vas va vamos vais van",
+ tener:"tengo tienes tiene tenemos tenéis tienen", querer:"quiero quieres quiere queremos queréis quieren",
+ poder:"puedo puedes puede podemos podéis pueden", saber:"sé sabes sabe sabemos sabéis saben", hacer:"hago haces hace hacemos hacéis hacen",
+ venir:"vengo vienes viene venimos venís vienen", entender:"entiendo entiendes entiende entendemos entendéis entienden",
+ jugar:"juego juegas juega jugamos jugáis juegan", salir:"salgo sales sale salimos salís salen", empezar:"empiezo empiezas empieza empezamos empezáis empiezan",
+ cerrar:"cierro cierras cierra cerramos cerráis cierran", dormir:"duermo duermes duerme dormimos dormís duermen",
+ preferir:"prefiero prefieres prefiere preferimos preferís prefieren", ver:"veo ves ve vemos veis ven", repetir:"repito repites repite repetimos repetís repiten",
+ despertarse:"me despierto|te despiertas|se despierta|nos despertamos|os despertáis|se despiertan"};
+const REFL = ["me","te","se","nos","os","se"];
+function conjugate(v){
+  if (IRR[v]) return IRR[v].includes("|") ? IRR[v].split("|") : IRR[v].split(" ");
+  if (v.endsWith("se")) return conjugate(v.slice(0, -2)).map((f, i) => REFL[i] + " " + f);
+  const stem = v.slice(0, -2), end = v.slice(-2);
+  const E = {ar:["o","as","a","amos","áis","an"], er:["o","es","e","emos","éis","en"], ir:["o","es","e","imos","ís","en"]}[end];
+  return E.map(e => stem + e);
+}
+
+/* ---------- generators ---------- */
+const lastVerb = {};
+const GEN = {
+  num(card, n){
+    const m = card.args.mode; let nums;
+    if (m === "1-20") nums = [...sample([11,12,13,14,15,16,17,18,19], 3), ...sample(range(1, 20), 12)];
+    else if (m === "tens") nums = sample([10,20,30,40,50,60,70,80,90,100], n);
+    else if (m === "21-99") nums = [...sample(range(21, 29), 2), pick([31,41,51,61,71,81,91]), ...sample(range(31, 99).filter(x => x % 10), 10)];
+    else if (m === "hundreds") nums = sample([1,2,3,4,5,6,7,8,9], n).map(h => h * 100 + (Math.random() < .2 ? 0 : 1 + rnd(99)));
+    else { const tricky = [15,16,17,19,21,22,23,26,...range(30,39),...range(60,79),...range(90,99),100,100];
+      nums = [...sample(tricky, Math.ceil(n / 2) + 1), ...sample(range(1, 100), n)]; }
+    nums = shuffle([...new Set(nums)].slice(0, n));
+    return {items: nums.map(x => ({p: String(x), a: numWords(x)}))};
+  },
+  numnoun(card, n){
+    const T = [
+      x => [`${x} minutes`, `${numM(x)} minutos`],
+      x => [`in ${x} minutes`, `en ${numM(x)} minutos`],
+      x => [`I'm ${Math.max(x, 18)} years old`, `Tengo ${numM(Math.max(x, 18))} años`],
+      x => [`My dad is ${Math.max(x, 40)} years old`, `Mi papá tiene ${numM(Math.max(x, 40))} años`],
+      x => [`${x} beers`, `${numF(x)} cervezas`],
+      x => [`${x} friends (men)`, `${numM(x)} amigos`],
+      x => [`${x} houses`, `${numF(x)} casas`],
+      x => [`${x} hours`, `${numF(x)} horas`],
+      x => [`${x} dollars`, `${numM(x)} dólares`]];
+    return {items: sample(T, n).map(f => { const [p, a] = f(oneEnding()); return {p, a, tip: /(^| )(un|una|veintiún|veintiuna) /.test(a) ? "1 → un / una before a noun" : ""}; })};
+  },
+  prices(card, n){
+    const CUR = [["pesos","pesos","peso"],["dollars","dólares","dólar"],["euros","euros","euro"]];
+    const amt = () => { const x = Math.random() < .55 ? pick([1,15,16,21,22,31,46,75,99,100,150,250,500,700,61,81]) : 2 + rnd(98);
+      const c = pick(CUR); return x === 1 ? [`1 ${c[2] === "dólar" ? "dollar" : c[2]}`, `un ${c[2]}`] : [`${x} ${c[0]}`, `${numM(x)} ${c[1]}`]; };
+    const SG = [["the coffee","el café"],["the ice cream","el helado"],["the paella","la paella"],["the beer","la cerveza"],["the red wine","el vino tinto"],["the chicken salad","la ensalada de pollo"],["the guitar","la guitarra"]];
+    const PL = [["the beers","las cervezas"],["the sodas","los refrescos"],["the eggs","los huevos"],["the magazines","las revistas"],["the glasses (spectacles)","las gafas"],["the houses","las casas"]];
+    const T = card.args.mode === "shop" ? [
+      () => { const o = pick(SG); return [`How much does ${o[0]} cost?`, `¿Cuánto cuesta ${o[1]}?`]; },
+      () => { const o = pick(PL); return [`How much do ${o[0]} cost?`, `¿Cuánto cuestan ${o[1]}?`]; },
+      () => { const o = pick(SG), [e, s] = amt(); return [`${cap(o[0])} costs ${e}`, `${cap(o[1])} cuesta ${s}`]; },
+      () => { const o = pick(PL), [e, s] = amt(); return [`${cap(o[0])} cost ${e}`, `${cap(o[1])} cuestan ${s}`]; },
+      () => { const [e, s] = amt(); return [`It costs too much! ${e}?`, `¡Cuesta demasiado! ¿${cap(s)}?`]; },
+      () => { const [e, s] = amt(); return [`I only have ${e}`, `Solo tengo ${s}`]; }
+    ] : [
+      () => { const [e, s] = amt(); return [`It costs ${e}`, `Cuesta ${s}`]; },
+      () => { const [e, s] = amt(); return [`They cost ${e}`, `Cuestan ${s}`]; },
+      () => { const o = pick(SG), [e, s] = amt(); return [`${cap(o[0])} costs ${e}`, `${cap(o[1])} cuesta ${s}`]; },
+      () => { const o = pick(PL), [e, s] = amt(); return [`${cap(o[0])} cost ${e}`, `${cap(o[1])} cuestan ${s}`]; }
+    ];
+    const items = []; let order = shuffle(T);
+    for (let i = 0; i < n; i++) { if (!order.length) order = shuffle(T); const [p, a] = order.pop()(); items.push({p, a}); }
+    return {items};
+  },
+  clock(card, n){
+    const at = card.args.mode === "a", seen = new Set(), items = [];
+    const MINS = [0,15,30,45,40,20,10,5,25,35,50,55,30,15,45];
+    while (items.length < n) {
+      const h = pick([7,8,9,10,11,13,14,15,16,17,18,19,20,21,22]), m = pick(MINS), key = h + ":" + m;
+      if (seen.has(key)) continue; seen.add(key);
+      const h12 = h % 12 || 12, period = h < 12 ? "de la mañana" : h < 20 ? "de la tarde" : "de la noche";
+      const disp = `${h12}:${String(m).padStart(2, "0")} ${h < 12 ? "am" : "pm"}`;
+      let base = h12, phrase = "";
+      if (m === 0) phrase = "";
+      else if (m <= 30) phrase = m === 15 ? " y cuarto" : m === 30 ? " y media" : " y " + numWords(m);
+      else { base = h12 % 12 + 1; phrase = " menos " + (m === 45 ? "cuarto" : numWords(60 - m)); }
+      const art = b => (b === 1 ? "la una" : "las " + numWords(b));
+      const lead = b => at ? "a " + art(b) : (b === 1 ? "Es " : "Son ") + art(b);
+      const a = `${lead(base)}${phrase} ${period}`;
+      const alts = [];
+      if (m === 0) alts.push(`${lead(h12)} en punto ${period}`);
+      if (m > 30 || m === 15 || m === 30) alts.push(`${lead(h12)} y ${numWords(m)} ${period}`);
+      items.push({p: disp, pe: at ? `at ${disp}` : `It's ${disp}`, a: cap(a), alts: alts.map(cap), tip: m > 30 ? "after :30 → next hour + menos (minutes left)" : ""});
+    }
+    return {items};
+  },
+  gustar(card, n){
+    const P = [["I","me","a mí",1],["You (tú)","te","a ti",0],["He","le","a él",3],["She","le","a ella",3],["We","nos","a nosotros",0],["They","les","a ellos",0],["You all (Spain)","os","a vosotros",0]];
+    const SG = [["coffee","el café"],["football","el fútbol"],["paella","la paella"],["beer","la cerveza"],["red wine","el vino tinto"],["spicy food","la comida picante"],["Latin music","la música latina"],["soda","el refresco"],["the bakery","la panadería"],["chicken salad","la ensalada de pollo"]];
+    const PL = [["cats","los gatos"],["dogs","los perros"],["sports","los deportes"],["magazines","las revistas"],["eggs","los huevos"],["the children","los niños"]];
+    const INF = [["to dance","bailar"],["to cook","cocinar"],["to travel","viajar"],["to swim","nadar"],["to sing","cantar"],["to eat","comer"]];
+    const kinds = shuffle(["sg","pl","pl","inf","sg","pl","neg","sg"]).slice(0, n);
+    const persons = shuffle(P.concat(P)), used = new Set(), items = [];
+    kinds.forEach((k, i) => {
+      const per = persons[i]; let obj, pl;
+      const neg = k === "neg" || Math.random() < .15;
+      const kk = k === "neg" ? pick(["sg","pl"]) : k;
+      do { obj = kk === "pl" ? pick(PL) : kk === "inf" ? pick(INF) : pick(SG); } while (used.has(obj[1]) && used.size < 20);
+      used.add(obj[1]); pl = kk === "pl";
+      const third = per[3] === 3;
+      const en = `${per[0]} ${neg ? (third ? "doesn't like" : "don't like") : (third ? "likes" : "like")} ${obj[0]}`;
+      const core = `${neg ? "no " : ""}${per[1]} ${pl ? "gustan" : "gusta"} ${obj[1]}`;
+      items.push({p: en, a: cap(core) , alts: [cap(per[2] + " " + core)], tip: pl ? "plural → gustan" : (kk === "inf" ? "verb → gusta" : "")});
+    });
+    return {items};
+  },
+  conj(card){
+    const vs = card.args.verbs; let v;
+    do { v = pick(vs); } while (vs.length > 1 && v === lastVerb[card.id]);
+    lastVerb[card.id] = v;
+    const f = conjugate(v);
+    return {sub: v, sube: `${v} = ${VERB_EN[v] || ""}`, items: PERSONS.map((p, i) => ({p: `${p} — ${v}`, pe: `${PERSONS_EN[i]} — ${v} (${VERB_EN[v] || ""})`, a: f[i]}))};
+  },
+  conjmix(card, n){
+    const vs = Object.keys(VERB_EN), seen = new Set(), items = [];
+    while (items.length < n) { const v = pick(vs), i = rnd(6), k = v + i; if (seen.has(k) || seen.has(v)) continue; seen.add(k); seen.add(v);
+      items.push({p: `${PERSONS[i]} — ${v}`, pe: `${PERSONS_EN[i]} — ${v} (${VERB_EN[v]})`, a: conjugate(v)[i]}); }
+    return {items};
+  }
+};
+function realize(card){
+  if (card.gen) return GEN[card.gen](card, card.n);
+  if (card.sets) return {items: pick(card.sets)};
+  return {items: sample(card.items, card.n)};
+}
+
+/* ---------- answer checking ---------- */
+const SUBJ = /^(yo|tú|él|ella|usted|nosotros|nosotras|vosotros|vosotras|ellos|ellas|ustedes) /;
+const ARTS = /^(el|la|los|las|un|una) /;
+function norm(s){ return String(s).normalize("NFC").toLowerCase().replace(/[¿¡?!.,;:"“”'‘’«»()…–—\-]/g, " ").replace(/\s+/g, " ").trim(); }
+function deacc(s){ return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").normalize("NFC"); }
+function lev(a, b){
+  if (a === b) return 0; const m = a.length, n = b.length; if (!m || !n) return m || n;
+  let prev = range(0, n), cur = new Array(n + 1);
+  for (let i = 1; i <= m; i++) { cur[0] = i; for (let j = 1; j <= n; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); [prev, cur] = [cur, prev]; }
+  return prev[n];
+}
+function variants(s){ const v = norm(s); const out = new Set([v]); if (SUBJ.test(v)) out.add(v.replace(SUBJ, "")); return [...out]; }
+function check(input, item){
+  if (!input || !input.trim()) return {st: "bad", note: "Left blank"};
+  const ins = variants(input), cands = [item.a, ...(item.alts || [])].flatMap(variants);
+  for (const c of cands) if (ins.includes(c)) return {st: "ok", note: "Correct"};
+  for (const c of cands) if (ins.some(x => deacc(x) === deacc(c))) return {st: "close", note: "Close: check the accents (á é í ó ú ñ)"};
+  for (const c of cands) { const m = c.match(ARTS); if (m && ins.some(x => deacc(x) === deacc(c.slice(m[0].length)))) return {st: "close", note: `Close: don't forget the article (${m[1]})`}; }
+  for (const c of cands) { const dc = deacc(c), tol = dc.length < 5 ? 0 : dc.length < 12 ? 1 : Math.min(3, Math.floor(dc.length / 12) + 1);
+    if (ins.some(x => lev(deacc(x), dc) <= tol)) return {st: "close", note: "Close: small spelling slip"}; }
+  return {st: "bad", note: "Not quite. Compare with the answer"};
+}
+
+/* ---------- state ---------- */
+const todayStr = () => { const d = new Date(); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); };
+function defaultState(){ return {cards: {}, newLog: {date: todayStr(), count: 0, extra: 0}, settings: {newPerDay: 5, typing: true, rate: 0.9}}; }
+let state;
+try { state = JSON.parse(localStorage.getItem(STORE_KEY)) || defaultState(); } catch (e) { state = defaultState(); }
+state = Object.assign(defaultState(), state); state.settings = Object.assign(defaultState().settings, state.settings || {});
+function save(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {} }
+function rollDay(){ if (state.newLog.date !== todayStr()) state.newLog = {date: todayStr(), count: 0, extra: 0}; }
+const newLeft = () => { rollDay(); return Math.max(0, state.settings.newPerDay + (state.newLog.extra || 0) - state.newLog.count); };
+const isSeen = c => !!state.cards[c.id];
+const isDue = (c, now = Date.now()) => isSeen(c) && state.cards[c.id].due <= now;
+function scopeCards(scope){
+  if (scope === "__due__") return CONCEPTS;
+  if (scope === "__star__") return CONCEPTS.filter(c => c.new);
+  return CONCEPTS.filter(c => c.topic === scope);
+}
+function scopeLabel(scope){ return scope === "__due__" ? "All due" : scope === "__star__" ? "★ New since last class" : scope; }
+
+/* ---------- scheduler (SM-2 lite) ---------- */
+function schedule(s, g, now = Date.now()){
+  s = s ? {...s} : {reps: 0, ease: 2.5, interval: 0, due: now, lapses: 0};
+  if (g === 1) { s.reps = 0; s.lapses++; s.ease = Math.max(1.3, s.ease - .2); s.interval = 0; s.due = now + 10 * MIN; }
+  else {
+    if (g === 2) { s.interval = Math.max(1, s.interval * 1.2); s.ease = Math.max(1.3, s.ease - .15); }
+    if (g === 3) { s.interval = s.reps === 0 ? 1 : s.reps === 1 ? 3 : Math.max(s.interval + 1, s.interval * s.ease); }
+    if (g === 4) { s.interval = s.reps === 0 ? 4 : Math.max(s.interval + 2, s.interval * s.ease * 1.3); s.ease = Math.min(3, s.ease + .15); }
+    s.reps++; s.interval = Math.round(s.interval * 10) / 10; s.due = now + s.interval * DAY;
+  }
+  s.last = now; return s;
+}
+function fmtIvl(ms){ if (ms < 60 * MIN) return Math.max(1, Math.round(ms / MIN)) + "m"; const d = ms / DAY; if (d < 30) return Math.round(d) + "d"; return (d / 30).toFixed(1).replace(".0", "") + "mo"; }
+
+/* ---------- speech ---------- */
+let voice = null;
+function pickVoice(){
+  if (!("speechSynthesis" in window)) { $("voiceInfo").textContent = "Speech isn't available in this browser."; return; }
+  const vs = speechSynthesis.getVoices();
+  voice = ["es-ES","es-MX","es-US"].map(l => vs.find(v => v.lang.replace("_", "-") === l)).find(Boolean) || vs.find(v => /^es/i.test(v.lang)) || null;
+  $("voiceInfo").textContent = voice ? `Voice: ${voice.name} (${voice.lang})` : (vs.length ? "No Spanish voice found, so the default voice is used." : "Voice: loading…");
+}
+if ("speechSynthesis" in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+const speakable = s => s.replace(/_+/g, " ").replace(/\s\/\s/g, ", ").replace(/—/g, ",");
+function speak(text, onend){
+  if (!("speechSynthesis" in window)) return;
+  const u = new SpeechSynthesisUtterance(speakable(text)); u.lang = voice ? voice.lang : "es-ES"; if (voice) u.voice = voice;
+  u.rate = +state.settings.rate || .9; if (onend) u.onend = onend; speechSynthesis.speak(u);
+}
+function speakAll(){
+  if (!("speechSynthesis" in window) || !cur) return; speechSynthesis.cancel();
+  cur.items.forEach(it => speak(it.a));
+}
+
+/* ---------- screens ---------- */
+let screen = "home", curTopic = null;
+function show(id){
+  ["home","topic","drill"].forEach(s => $(s).classList.toggle("hidden", s !== id)); setEn(false); screen = id; window.scrollTo(0, 0);
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
+}
+function goHome(push = true){ renderHome(); show("home"); if (push) history.replaceState({s: "home"}, ""); }
+function counts(list){ const now = Date.now(); return {total: list.length, due: list.filter(c => isDue(c, now)).length, fresh: list.filter(c => !isSeen(c)).length}; }
+function renderHome(){
+  rollDay();
+  const all = counts(CONCEPTS), star = counts(scopeCards("__star__"));
+  $("hDue").textContent = all.due; $("hNew").textContent = Math.min(newLeft(), all.fresh);
+  $("hSeen").textContent = CONCEPTS.filter(isSeen).length;
+  $("hLearned").textContent = CONCEPTS.filter(c => isSeen(c) && state.cards[c.id].interval >= LEARNED_DAYS).length;
+  const nl = Math.min(newLeft(), all.fresh);
+  $("allDueSub").textContent = `${all.due} due · ${nl} new today`;
+  $("btnAllDue").disabled = !(all.due + nl);
+  $("starSub").textContent = `${star.total} cards · ${star.due} due · ${star.fresh} not started`;
+  $("topicGrid").innerHTML = TOPICS.map(t => {
+    const list = scopeCards(t), k = counts(list), st = list.filter(c => c.new).length;
+    return `<button class="tile" data-topic="${esc(t)}"><span class="em">${EMOJI[t] || "📘"}</span><span class="nm">${esc(t)}</span>
+      <span class="ct"><span class="pill">${k.total} cards</span>${k.due ? `<span class="pill due">${k.due} due</span>` : ""}${k.fresh ? `<span class="pill new">${k.fresh} new</span>` : ""}${st ? `<span class="pill star">★${st}</span>` : ""}</span></button>`;
+  }).join("");
+  $("sNewPerDay").value = state.settings.newPerDay; $("sTyping").checked = !!state.settings.typing; $("sRate").value = String(state.settings.rate);
+}
+function openTopic(t){
+  curTopic = t; const list = scopeCards(t), k = counts(list), now = Date.now();
+  $("tEm").textContent = t === "__star__" ? "★" : (EMOJI[t] || "📘"); $("tName").textContent = scopeLabel(t);
+  $("tCounts").textContent = `${k.total} concept cards · ${k.due} due · ${k.fresh} not started`;
+  const nl = Math.min(newLeft(), k.fresh);
+  $("tStudy").textContent = `Study (${k.due} due + ${nl} new)`; $("tStudy").disabled = !(k.due + nl);
+  $("tList").innerHTML = list.map(c => {
+    const s = state.cards[c.id];
+    const status = !s ? "not started" : (s.due <= now ? "due now" : "next in " + fmtIvl(s.due - now)) + (s.lastScore ? ` · last ${s.lastScore}` : "");
+    return `<li><div><div class="t">${c.new ? "★ " : ""}${esc(c.title_es || c.title)}</div><div class="tile-en">${esc(c.title)}</div><div class="s" style="text-align:left">${esc(t === "__star__" ? c.topic : status)}</div></div><button data-try="${c.id}">Try</button></li>`;
+  }).join("");
+  show("topic"); history.pushState({s: "topic"}, "");
+}
+
+/* ---------- drill session ---------- */
+let queue = [], cram = false, sessionScope = null, total = 0, doneCount = 0, cur = null, revealed = false, results = [];
+function startSession(scope, practice, onlyId){
+  sessionScope = scope; cram = !!practice; const list = scopeCards(scope), now = Date.now();
+  if (onlyId) { queue = [onlyId]; cram = true; }
+  else if (cram) queue = shuffle(list).map(c => c.id);
+  else {
+    const due = list.filter(c => isDue(c, now)).sort((a, b) => state.cards[a.id].due - state.cards[b.id].due).map(c => c.id);
+    const fresh = list.filter(c => !isSeen(c)).slice(0, newLeft()).map(c => c.id);
+    queue = [...due, ...fresh];
+    // interleave new cards among reviews
+    if (due.length && fresh.length) { queue = []; const d = due.slice(), f = fresh.slice(); while (d.length || f.length) { if (d.length) queue.push(d.shift()); if (d.length) queue.push(d.shift()); if (f.length) queue.push(f.shift()); } }
+  }
+  total = queue.length; doneCount = 0;
+  show("drill"); history.pushState({s: "drill"}, "");
+  nextCard();
+}
+function nextCard(){
+  setEn(false);
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
+  $("dBar").style.width = total ? Math.min(100, 100 * doneCount / total) + "%" : "0";
+  const id = queue.shift();
+  if (!id) return finish();
+  const card = BYID[id], r = realize(card);
+  cur = {card, items: r.items, sub: r.sub || "", sube: r.sube || ""}; revealed = false; results = [];
+  $("doneBox").classList.add("hidden"); $("cardArea").classList.remove("hidden");
+  $("dLabel").textContent = `${scopeLabel(sessionScope)} · ${queue.length + 1} left${cram ? " · practice" : ""}`;
+  const fresh = !isSeen(card);
+  $("cMeta").innerHTML = `<span>${EMOJI[card.topic] || ""} ${esc(card.topic)}</span>${fresh && !cram ? '<span class="pill new">new</span>' : ""}${card.new ? '<span class="pill star">★ since last class</span>' : ""}${cram ? '<span class="pill">practice</span>' : ""}`;
+  $("cTitle").innerHTML = bi(card.title_es || card.title, card.title); $("cSub").innerHTML = bi(cur.sub, cur.sube); $("cSub").classList.toggle("hidden", !cur.sub);
+  $("cInstr").innerHTML = bi(card.instr_es || card.instr, card.instr);
+  const typing = !!state.settings.typing;
+  $("cItems").innerHTML = cur.items.map((it, i) => `<li data-i="${i}" class="${it.open ? "" : ""}"><div class="prompt">${bi(it.p, it.pe)}${it.open ? '<span class="opentag">open answer</span>' : ""}</div>${typing ? `<input type="text" lang="es" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="${i === cur.items.length - 1 ? "done" : "next"}" data-i="${i}" placeholder="${it.open ? "Your answer (optional)" : "Type in Spanish (optional)"}">` : ""}<div class="ansbox"></div></li>`).join("");
+  $("cTip").classList.add("hidden");
+  $("ctrlPre").classList.remove("hidden"); $("ctrlPost").classList.add("hidden");
+  $("ctrlPre").querySelector(".keys").classList.toggle("hidden", !typing);
+  if (typing && matchMedia("(hover:hover)").matches) { const f = $("cItems").querySelector("input"); if (f) f.focus({preventScroll: true}); }
+}
+function reveal(){
+  if (!cur || revealed) return; revealed = true;
+  const lis = [...$("cItems").children]; let typedAny = false;
+  lis.forEach((li, i) => { const inp = li.querySelector("input"); if (inp && inp.value.trim()) typedAny = true; });
+  let ok = 0, close = 0, markable = 0;
+  lis.forEach((li, i) => {
+    const it = cur.items[i], inp = li.querySelector("input"), val = inp ? inp.value : "";
+    let res = null;
+    if (it.open) { res = {st: "open", note: "Open answer: compare it yourself"}; }
+    else if (typedAny) { res = check(val, it); markable++; if (res.st === "ok") ok++; if (res.st === "close") close++; }
+    results[i] = res;
+    if (res) li.classList.add(res.st);
+    if (inp) { inp.readOnly = true; inp.blur(); }
+    const alts = (it.alts || []).filter(a => norm(a) !== norm(it.a));
+    li.querySelector(".ansbox").innerHTML = `<div class="ans"><div class="es">${it.open ? "e.g. " : ""}${esc(it.a)}${alts.length ? `<span class="alts">also: ${alts.map(esc).join(" · ")}</span>` : ""}</div><button class="spk" data-say="${i}" aria-label="Speak">🔊</button></div>${res ? `<div class="mark ${res.st}">${esc(res.note)}</div>` : ""}${it.tip ? `<div class="itip">💡 ${esc(it.tip)}</div>` : ""}`;
+  });
+  if (cur.card.tip) { $("cTip").textContent = "💡 " + cur.card.tip; $("cTip").classList.remove("hidden"); }
+  let sugg = 0;
+  if (typedAny && markable) {
+    const ratio = (ok + .5 * close) / markable, sc = Math.round((ok + .5 * close) * 10) / 10;
+    cur.score = `${sc}/${markable}`;
+    $("scoreTxt").innerHTML = `${sc}/${markable}<small>${ok} correct · ${close} close · ${markable - ok - close} to fix</small>`;
+    sugg = ratio === 1 ? 4 : ratio >= .75 ? 3 : ratio >= .5 ? 2 : 1;
+  } else { cur.score = ""; $("scoreTxt").innerHTML = `How did you do?<small>${markable || !typedAny ? "Nothing typed, so grade yourself" : "Open answers, so grade yourself"}</small>`; }
+  const s = state.cards[cur.card.id], now = Date.now();
+  [1,2,3,4].forEach(g => { $("iv" + g).textContent = fmtIvl(schedule(s, g, now).due - now); const b = document.querySelector(`.grades [data-g="${g}"]`); b.classList.toggle("sugg", g === sugg); });
+  $("grades").classList.toggle("hidden", cram); $("nextBtn").classList.toggle("hidden", !cram);
+  $("postKeys").innerHTML = cram ? "<kbd>Enter</kbd> next · <kbd>S</kbd> speak all" : "<kbd>1</kbd>–<kbd>4</kbd> grade · <kbd>S</kbd> speak all";
+  $("ctrlPre").classList.add("hidden"); $("ctrlPost").classList.remove("hidden");
+  if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+}
+function grade(g){
+  if (!cur || !revealed || cram) return;
+  const id = cur.card.id, wasNew = !state.cards[id];
+  rollDay();
+  const s = schedule(state.cards[id], g); if (cur.score) s.lastScore = cur.score;
+  state.cards[id] = s; if (wasNew) state.newLog.count++;
+  save();
+  if (s.due - Date.now() < 20 * MIN) { queue.splice(Math.min(queue.length, 2), 0, id); total++; }
+  doneCount++; nextCard();
+}
+function practiceNext(){ if (!cur || !revealed) return; doneCount++; nextCard(); }
+function finish(){
+  cur = null; $("cardArea").classList.add("hidden"); $("doneBox").classList.remove("hidden"); $("dBar").style.width = "100%";
+  const list = scopeCards(sessionScope), fresh = list.filter(c => !isSeen(c)).length;
+  const upcoming = list.filter(isSeen).map(c => state.cards[c.id].due).sort((a, b) => a - b)[0];
+  $("doneMsg").textContent = cram ? "Practice round finished. Your schedule wasn't changed." :
+    `Nothing more due in ${scopeLabel(sessionScope)} right now.` + (upcoming ? ` Next review in ${fmtIvl(Math.max(0, upcoming - Date.now()))}.` : "") + (fresh ? ` ${fresh} concept card${fresh > 1 ? "s" : ""} not started yet.` : "");
+  $("doneMore").classList.toggle("hidden", cram || !fresh);
+  $("dLabel").textContent = scopeLabel(sessionScope);
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click", e => {
+  const t = e.target.closest("button"); if (!t) return;
+  if (t.dataset.topic) return openTopic(t.dataset.topic);
+  if (t.hasAttribute("data-home")) { goHome(); return; }
+  if (t.dataset.try) return startSession(curTopic, true, t.dataset.try);
+  if (t.dataset.say !== undefined && cur) { if ("speechSynthesis" in window) speechSynthesis.cancel(); return speak(cur.items[+t.dataset.say].a); }
+  if (t.dataset.g) return grade(+t.dataset.g);
+});
+$("btnAllDue").onclick = () => startSession("__due__", false);
+$("btnStar").onclick = () => openTopic("__star__");
+$("tStudy").onclick = () => startSession(curTopic, false);
+$("tPractice").onclick = () => startSession(curTopic, true);
+$("revealBtn").onclick = reveal;
+$("nextBtn").onclick = practiceNext;
+$("speakAll").onclick = speakAll;
+$("drillBack").onclick = () => { if (sessionScope && sessionScope !== "__due__") { openTopic(sessionScope); } else goHome(); };
+$("doneMore").onclick = () => { rollDay(); state.newLog.extra = (state.newLog.extra || 0) + 3; save(); startSession(sessionScope, false); };
+$("donePractice").onclick = () => startSession(sessionScope, true);
+$("sNewPerDay").onchange = e => { state.settings.newPerDay = Math.max(0, Math.min(50, parseInt(e.target.value, 10) || 0)); save(); renderHome(); };
+$("sTyping").onchange = e => { state.settings.typing = e.target.checked; save(); };
+$("sRate").onchange = e => { state.settings.rate = +e.target.value; save(); speak("Hola, ¿qué tal?"); };
+$("resetBtn").onclick = () => { if (confirm("Reset ALL progress for the concept drills? This can't be undone.")) { const st = state.settings; state = defaultState(); state.settings = st; save(); renderHome(); } };
+$("cItems").addEventListener("keydown", e => {
+  if (e.key !== "Enter" || !e.target.matches("input")) return;
+  e.preventDefault(); e.stopPropagation();
+  if (revealed) return;
+  const inputs = [...$("cItems").querySelectorAll("input")], i = inputs.indexOf(e.target);
+  if (i < inputs.length - 1) inputs[i + 1].focus(); else reveal();
+});
+/* ---------- hold for English ----------
+   Spanish is shown by default; while the EN button (or the E key) is held, the card gets .show-en
+   and CSS swaps every .lang-es span for its .lang-en twin. Nothing is re-rendered, so typed
+   answers, revealed marks and scores are untouched. */
+function bi(es, en){ es = es || ""; if (!en || en === es) return esc(es); return `<span class="lang-es" lang="es">${esc(es)}</span><span class="lang-en" lang="en">${esc(en)}</span>`; }
+var enOn = false;
+function setEn(on){ on = !!on; if (on === enOn && $("drill").classList.contains("show-en") === on) return; enOn = on;
+  $("drill").classList.toggle("show-en", on); const b = $("holdEn"); b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on));
+  b.textContent = on ? "🇬🇧 English (release for 🇪🇸)" : "🇬🇧 Hold for English"; }
+(function(){
+  const b = $("holdEn"), on = e => { if (e && e.cancelable) e.preventDefault(); setEn(true); }, off = () => setEn(false);
+  if (window.PointerEvent) {
+    b.addEventListener("pointerdown", e => { if (e.button > 0) return; e.preventDefault(); try { b.setPointerCapture(e.pointerId); } catch (_) {} setEn(true); });
+    ["pointerup", "pointercancel", "lostpointercapture"].forEach(t => b.addEventListener(t, off));
+  } else {
+    b.addEventListener("mousedown", e => { if (e.button === 0) on(e); });
+    b.addEventListener("mouseup", off);
+  }
+  b.addEventListener("mouseleave", off);
+  // touch: block selection / long-press callout / emulated mouse events; keep pointer events doing the work
+  b.addEventListener("touchstart", on, {passive: false});
+  b.addEventListener("touchend", e => { if (e.cancelable) e.preventDefault(); off(); }, {passive: false});
+  b.addEventListener("touchcancel", off);
+  b.addEventListener("contextmenu", e => e.preventDefault());
+  b.addEventListener("click", e => e.preventDefault());
+  b.addEventListener("keydown", e => { if ((e.key === " " || e.key === "Enter") && !e.repeat) { e.preventDefault(); e.stopPropagation(); setEn(true); } });
+  b.addEventListener("keyup", e => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); off(); } });
+  b.addEventListener("blur", off);
+  window.addEventListener("blur", off);
+  document.addEventListener("visibilitychange", off);
+  document.addEventListener("keyup", e => { if (e.key === "e" || e.key === "E") off(); });
+})();
+document.addEventListener("keydown", e => {
+  if (screen !== "drill" || (e.target.matches && e.target.matches("input,select,textarea"))) return;
+  if ((e.key === "e" || e.key === "E") && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); if (!e.repeat) setEn(true); return; }
+  if (e.target === $("holdEn")) return;
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if (!cur) return;
+  if (!revealed && (e.key === " " || e.key === "Enter")) { e.preventDefault(); reveal(); }
+  else if (revealed && cram && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); practiceNext(); }
+  else if (revealed && !cram && ["1","2","3","4"].includes(e.key)) grade(+e.key);
+  else if (revealed && (e.key === "s" || e.key === "S")) speakAll();
+});
+window.addEventListener("popstate", () => { if (screen === "drill" && sessionScope && !["__due__"].includes(sessionScope)) openTopicNoPush(); else goHome(false); });
+function openTopicNoPush(){ const t = curTopic || sessionScope; if (!t) return goHome(false); openTopic(t); history.replaceState({s: "topic"}, ""); }
+history.replaceState({s: "home"}, "");
+renderHome();
+</script>
+</body>
+</html>
