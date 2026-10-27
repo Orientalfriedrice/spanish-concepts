@@ -127,6 +127,23 @@ li.bad input{border-color:var(--bad);background:var(--badbg)}
 .done .big-emoji{font-size:44px}
 .done p{color:var(--muted)}
 .done .btn{width:100%;margin-top:8px}
+/* daily goal + connect */
+.goalrow{display:flex;justify-content:center;margin:-2px 0 12px}
+.goal{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;font-size:14.5px;font-weight:700;cursor:pointer;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:none;-webkit-tap-highlight-color:transparent}
+.goal.done{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.goal.on{background:var(--accent2);border-color:var(--accent2);color:#fff}
+.goal .bar{display:inline-block;width:46px;height:6px;border-radius:4px;background:var(--line);vertical-align:2px;margin-left:8px;overflow:hidden}
+.goal .bar i{display:block;height:100%;background:var(--ok)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(30px);opacity:0;background:var(--ok);color:#fff;font-weight:700;padding:12px 18px;border-radius:14px;box-shadow:var(--shadow);transition:all .35s;z-index:50;text-align:center;pointer-events:none;max-width:90vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.hook input{width:100%;font-size:14px;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;background:#fffdfa;color:var(--ink)}
+.hook .row{flex-wrap:wrap}
+.hook label{font-size:13px;color:var(--muted);width:100%}
+.hook .hbtns{display:flex;gap:8px;width:100%}
+.hook .hbtns button{flex:1;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:8px;font-weight:650}
+#hookStatus{font-size:13px;color:var(--muted);width:100%}
+#hookStatus.ok{color:var(--ok)}#hookStatus.bad{color:var(--bad)}#hookStatus.warn{color:var(--close)}
 kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px;font-size:11px;background:#fff}
 </style>
 </head>
@@ -144,6 +161,7 @@ kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;paddi
     <div class="stat"><b id="hSeen">0</b><small>Started</small></div>
     <div class="stat"><b id="hLearned" style="color:var(--ok)">0</b><small>Learned</small></div>
   </div>
+  <div class="goalrow"><button type="button" class="goal" id="goalChip" title="Cards finished today (Singapore time). Press and hold for English.">Hoy: 0/6 🎯</button></div>
   <div class="big">
     <button class="bigbtn due" id="btnAllDue"><b>▶ All due</b><small id="allDueSub"></small></button>
     <button class="bigbtn star" id="btnStar"><b>★ New since last class</b><small id="starSub"></small></button>
@@ -158,6 +176,15 @@ kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;paddi
     <div class="row"><span id="voiceInfo" style="font-size:13px;color:var(--muted)">Voice: checking…</span></div>
     <div class="row"><span>Reset all progress</span><button class="danger" id="resetBtn">Reset</button></div>
   </details>
+  <details class="settings hook" id="hookPanel">
+    <summary>⚙️ Conectar <span style="font-weight:400;color:var(--muted)">(daily check-in)</span></summary>
+    <div class="row"><span style="font-size:13px;color:var(--muted)">When you finish 6 cards in a day, the app tells Grok Bot so your practice gets ticked off. The URL and key are saved on this device only.</span></div>
+    <div class="row"><label for="hookUrl">Webhook URL</label><input type="url" id="hookUrl" placeholder="https://…" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+    <div class="row"><label for="hookKey">Key</label><input type="password" id="hookKey" placeholder="crsr_…" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+    <div class="row"><div class="hbtns"><button type="button" id="hookSave">Save</button><button type="button" id="hookTest">Test</button><button type="button" id="hookClear">Clear</button></div></div>
+    <div class="row"><span id="hookStatus"></span></div>
+  </details>
+  <div class="toast" id="toast">¡Hecho! Practice done for today 🎉</div>
   <div class="foot">Concept cards built from your Notion Spanish notes, with spellings corrected. Each one randomises its prompts, so repeats are never the same.<br>Progress is saved on this device only.</div>
 </section>
 
@@ -483,6 +510,7 @@ function renderHome(){
     return `<button class="tile" data-topic="${esc(t)}"><span class="em">${EMOJI[t] || "📘"}</span><span class="nm">${esc(t)}</span>
       <span class="ct"><span class="pill">${k.total} cards</span>${k.due ? `<span class="pill due">${k.due} due</span>` : ""}${k.fresh ? `<span class="pill new">${k.fresh} new</span>` : ""}${st ? `<span class="pill star">★${st}</span>` : ""}</span></button>`;
   }).join("");
+  renderGoal();
   $("sNewPerDay").value = state.settings.newPerDay; $("sTyping").checked = !!state.settings.typing; $("sRate").value = String(state.settings.rate);
 }
 function openTopic(t){
@@ -574,11 +602,11 @@ function grade(g){
   rollDay();
   const s = schedule(state.cards[id], g); if (cur.score) s.lastScore = cur.score;
   state.cards[id] = s; if (wasNew) state.newLog.count++;
-  save();
+  save(); recordDone(cur.card);
   if (s.due - Date.now() < 20 * MIN) { queue.splice(Math.min(queue.length, 2), 0, id); total++; }
   doneCount++; nextCard();
 }
-function practiceNext(){ if (!cur || !revealed) return; doneCount++; nextCard(); }
+function practiceNext(){ if (!cur || !revealed) return; recordDone(cur.card); doneCount++; nextCard(); }
 function finish(){
   cur = null; $("cardArea").classList.add("hidden"); $("doneBox").classList.remove("hidden"); $("dBar").style.width = "100%";
   const list = scopeCards(sessionScope), fresh = list.filter(c => !isSeen(c)).length;
@@ -664,8 +692,104 @@ document.addEventListener("keydown", e => {
 });
 window.addEventListener("popstate", () => { if (screen === "drill" && sessionScope && !["__due__"].includes(sessionScope)) openTopicNoPush(); else goHome(false); });
 function openTopicNoPush(){ const t = curTopic || sessionScope; if (!t) return goHome(false); openTopic(t); history.replaceState({s: "topic"}, ""); }
+/* ---------- daily goal + Grok Bot webhook ----------
+   Kept in separate localStorage keys so the main progress (STORE_KEY) is untouched.
+   The webhook URL and key live ONLY in this device's localStorage. */
+const GOAL = 6, DAILY_KEY = "jn-spanish-concepts-daily-v1", HOOK_KEY = "jn-spanish-concepts-hook-v1";
+function sgtDate(t = Date.now()){ return new Date(t + 8 * 3600 * 1000).toISOString().slice(0, 10); } // Asia/Singapore, UTC+8, no DST
+function loadJSON(k, d){ try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } }
+function saveJSON(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+let daily = loadJSON(DAILY_KEY, {days: {}});
+if (!daily.days) daily = {days: {}};
+function dayRec(d = sgtDate()){ return daily.days[d] || (daily.days[d] = {cards: 0, topics: [], sent: null}); }
+function pruneDays(){ const keep = Object.keys(daily.days).sort().slice(-60); for (const k of Object.keys(daily.days)) if (!keep.includes(k)) delete daily.days[k]; }
+function recordDone(card){
+  if (!card) return; const d = sgtDate(), r = dayRec(d);
+  r.cards++; if (card.topic && !r.topics.includes(card.topic)) r.topics.push(card.topic);
+  pruneDays(); saveJSON(DAILY_KEY, daily);
+  if (r.cards === GOAL) { celebrate(); }
+  if (r.cards >= GOAL && !r.sent) sendDaily(d);
+}
+let goalEn = false;
+function renderGoal(){
+  const r = daily.days[sgtDate()] || {cards: 0}, n = Math.min(r.cards, GOAL), b = $("goalChip"); if (!b) return;
+  const done = r.cards >= GOAL;
+  b.classList.toggle("done", done); b.classList.toggle("on", goalEn);
+  b.innerHTML = `${goalEn ? "Today" : "Hoy"}: ${n}/${GOAL} ${done ? "✅" : "🎯"}<span class="bar"><i style="width:${100 * n / GOAL}%"></i></span>`;
+}
+function celebrate(){
+  const t = $("toast"); t.textContent = "¡Hecho! Practice done for today 🎉"; t.classList.add("show");
+  clearTimeout(celebrate.tm); celebrate.tm = setTimeout(() => t.classList.remove("show"), 3500);
+}
+(function(){ // press-and-hold the chip for English
+  const b = $("goalChip"), on = e => { if (e && e.cancelable) e.preventDefault(); goalEn = true; renderGoal(); }, off = () => { if (goalEn) { goalEn = false; renderGoal(); } };
+  b.addEventListener("pointerdown", on); ["pointerup", "pointercancel", "pointerleave"].forEach(t => b.addEventListener(t, off));
+  b.addEventListener("touchstart", on, {passive: false}); b.addEventListener("touchend", e => { if (e.cancelable) e.preventDefault(); off(); }, {passive: false});
+  b.addEventListener("contextmenu", e => e.preventDefault()); window.addEventListener("blur", off);
+})();
+
+/* webhook */
+let hook = loadJSON(HOOK_KEY, {url: "", key: ""});
+function readFragment(){ // setup link: #hook=<url-encoded URL>&key=<key>
+  const h = location.hash.replace(/^#/, ""); if (!/(^|&)(hook|key)=/.test(h)) return;
+  const p = new URLSearchParams(h), u = p.get("hook"), k = p.get("key");
+  if (u) hook.url = u.trim(); if (k) hook.key = k.trim(); saveJSON(HOOK_KEY, hook);
+  history.replaceState(history.state, "", location.pathname + location.search);
+  setTimeout(() => { fillHook(); $("hookPanel").open = true; hookMsg("Connected from setup link. Tap Test to check it.", ""); hookRetry(); }, 0);
+}
+readFragment(); window.addEventListener("hashchange", readFragment);
+function hookMsg(t, cls){ const e = $("hookStatus"); e.textContent = t; e.className = cls || ""; }
+function fillHook(){ $("hookUrl").value = hook.url || ""; $("hookKey").value = hook.key || ""; }
+function hostOf(u){ try { return new URL(u).hostname; } catch (e) { return ""; } }
+async function postHook(payload){
+  // Grok Bot routine webhooks take the key only as "Authorization: Bearer <key>" (keys in URLs are rejected).
+  if (!hook.url || !hook.key) return {st: "nocfg"};
+  try {
+    const res = await fetch(hook.url, {method: "POST", headers: {"Content-Type": "application/json", "Authorization": "Bearer " + hook.key}, body: JSON.stringify(payload)});
+    if (res.ok) return {st: "ok"};
+    let msg = ""; try { msg = (await res.json()).message || ""; } catch (e) {}
+    return {st: "fail", why: `HTTP ${res.status}${msg ? ": " + msg : ""}`};
+  } catch (e) {
+    if (/(^|\.)cursor\.sh$/i.test(hostOf(hook.url))) return {st: "fail", why: "Grok Bot's webhook doesn't accept calls straight from a web page (the browser blocks it, CORS). Use the relay URL instead."};
+    // Usually the browser blocking the call (CORS). A no-cors request can't carry the Authorization header,
+    // so this only helps a relay that reads "key" from the body; the response can't be read.
+    try {
+      await fetch(hook.url, {method: "POST", mode: "no-cors", headers: {"Content-Type": "text/plain"}, body: JSON.stringify({...payload, key: hook.key})});
+      return {st: "opaque"};
+    } catch (e2) { return {st: "fail", why: "network error or blocked by the browser"}; }
+  }
+}
+function dailyPayload(d){ const r = dayRec(d); return {source: "spanish-concepts-app", date: d, cards: r.cards, topics: r.topics.slice()}; }
+let sending = false;
+async function sendDaily(d){
+  if (sending) return; const r = dayRec(d); if (r.sent || r.cards < GOAL || !hook.url || !hook.key) return;
+  sending = true; const out = await postHook(dailyPayload(d)); sending = false;
+  if (out.st === "ok" || out.st === "opaque") { r.sent = out.st + "@" + new Date().toISOString(); r.lastError = null; }
+  else r.lastError = out.why || out.st;
+  saveJSON(DAILY_KEY, daily);
+}
+function hookRetry(){ // retry today and yesterday if the goal was hit but the send failed
+  const t = sgtDate(), y = sgtDate(Date.now() - 864e5);
+  [y, t].forEach(d => { const r = daily.days[d]; if (r && r.cards >= GOAL && !r.sent) sendDaily(d); });
+}
+window.addEventListener("online", hookRetry);
+$("hookSave").onclick = () => { hook = {url: $("hookUrl").value.trim(), key: $("hookKey").value.trim()}; saveJSON(HOOK_KEY, hook); hookMsg(hook.url && hook.key ? "Saved on this device." : "Saved, but the URL and key are both needed.", hook.url && hook.key ? "ok" : "warn"); hookRetry(); };
+$("hookClear").onclick = () => { hook = {url: "", key: ""}; saveJSON(HOOK_KEY, hook); fillHook(); hookMsg("Cleared from this device.", ""); };
+$("hookTest").onclick = async () => {
+  const u = $("hookUrl").value.trim(), k = $("hookKey").value.trim();
+  if (u && k && (u !== hook.url || k !== hook.key)) { hook = {url: u, key: k}; saveJSON(HOOK_KEY, hook); }
+  if (!hook.url || !hook.key) return hookMsg("Paste the Webhook URL and Key first.", "warn");
+  hookMsg("Sending test…", "");
+  const out = await postHook({source: "spanish-concepts-app", test: true});
+  if (out.st === "ok") hookMsg("✅ OK: Grok Bot received the test.", "ok");
+  else if (out.st === "opaque") hookMsg("⚠️ Sent without confirmation: the browser blocked the normal call, so there's no reply to check. If no message arrives from Grok Bot, this connection won't work from the browser.", "warn");
+  else hookMsg("❌ Failed: " + (out.why || "unknown error"), "bad");
+  if (out.st !== "fail") hookRetry();
+};
+$("hookPanel").addEventListener("toggle", () => { if ($("hookPanel").open) fillHook(); });
+fillHook();
 history.replaceState({s: "home"}, "");
-renderHome();
+renderHome(); hookRetry();
 </script>
 </body>
 </html>
