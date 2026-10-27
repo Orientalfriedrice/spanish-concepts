@@ -740,24 +740,19 @@ function readFragment(){ // setup link: #hook=<url-encoded URL>&key=<key>
 readFragment(); window.addEventListener("hashchange", readFragment);
 function hookMsg(t, cls){ const e = $("hookStatus"); e.textContent = t; e.className = cls || ""; }
 function fillHook(){ $("hookUrl").value = hook.url || ""; $("hookKey").value = hook.key || ""; }
-function hostOf(u){ try { return new URL(u).hostname; } catch (e) { return ""; } }
+const RELAY_URL = "https://spanish-relay.vercel.app/api/hook";
+const WEBHOOK_RE = /^https:\/\/api2\.cursor\.sh\/automations\/webhook\/[A-Za-z0-9_-]+$/;
 async function postHook(payload){
-  // Grok Bot routine webhooks take the key only as "Authorization: Bearer <key>" (keys in URLs are rejected).
+  // Grok Bot routine webhooks take the key only as "Authorization: Bearer <key>" and don't allow browser (CORS) calls,
+  // so the app posts to a tiny relay, which forwards to the saved Webhook URL (only Grok webhook URLs are accepted).
   if (!hook.url || !hook.key) return {st: "nocfg"};
+  if (!WEBHOOK_RE.test(hook.url)) return {st: "fail", why: "That Webhook URL doesn't look like a Grok Bot routine webhook (https://api2.cursor.sh/automations/webhook/…)."};
   try {
-    const res = await fetch(hook.url, {method: "POST", headers: {"Content-Type": "application/json", "Authorization": "Bearer " + hook.key}, body: JSON.stringify(payload)});
+    const res = await fetch(RELAY_URL, {method: "POST", headers: {"Content-Type": "application/json", "Authorization": "Bearer " + hook.key, "X-Target-Url": hook.url}, body: JSON.stringify(payload)});
     if (res.ok) return {st: "ok"};
-    let msg = ""; try { msg = (await res.json()).message || ""; } catch (e) {}
+    let msg = ""; try { const j = await res.json(); msg = j.error || ""; if (!msg && j.detail) { try { msg = JSON.parse(j.detail).message || ""; } catch (e) { msg = String(j.detail).slice(0, 120); } } } catch (e) {}
     return {st: "fail", why: `HTTP ${res.status}${msg ? ": " + msg : ""}`};
-  } catch (e) {
-    if (/(^|\.)cursor\.sh$/i.test(hostOf(hook.url))) return {st: "fail", why: "Grok Bot's webhook doesn't accept calls straight from a web page (the browser blocks it, CORS). Use the relay URL instead."};
-    // Usually the browser blocking the call (CORS). A no-cors request can't carry the Authorization header,
-    // so this only helps a relay that reads "key" from the body; the response can't be read.
-    try {
-      await fetch(hook.url, {method: "POST", mode: "no-cors", headers: {"Content-Type": "text/plain"}, body: JSON.stringify({...payload, key: hook.key})});
-      return {st: "opaque"};
-    } catch (e2) { return {st: "fail", why: "network error or blocked by the browser"}; }
-  }
+  } catch (e) { return {st: "fail", why: "network error (offline?) or the relay couldn't be reached"}; }
 }
 function dailyPayload(d){ const r = dayRec(d); return {source: "spanish-concepts-app", date: d, cards: r.cards, topics: r.topics.slice()}; }
 let sending = false;
