@@ -145,6 +145,11 @@ li.bad input{border-color:var(--bad);background:var(--badbg)}
 #hookStatus{font-size:13px;color:var(--muted);width:100%}
 #hookStatus.ok{color:var(--ok)}#hookStatus.bad{color:var(--bad)}#hookStatus.warn{color:var(--close)}
 kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px;font-size:11px;background:#fff}
+#ptr{position:fixed;left:50%;top:calc(6px + env(safe-area-inset-top));transform:translate(-50%,-70px);z-index:50;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:999px;padding:7px 14px;font-size:13.5px;font-weight:650;color:var(--muted);pointer-events:none;opacity:0;white-space:nowrap}
+#ptr.ready{color:var(--accent);border-color:var(--accent)}
+#ptr .sp{display:inline-block;margin-right:6px}
+#ptr.busy .sp{animation:ptrspin .8s linear infinite}
+@keyframes ptrspin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -784,6 +789,50 @@ $("hookTest").onclick = async () => {
 };
 $("hookPanel").addEventListener("toggle", () => { if ($("hookPanel").open) fillHook(); });
 fillHook();
+/* ---------- pull to refresh ----------
+   Home-screen web apps (iOS standalone / installed PWA) have no native pull-to-refresh, so this adds one:
+   touch starts at the very top of the page, pull down > 70px, release → fetch the latest published page and reload.
+   Only active in standalone mode (normal browser tabs already have their own), or with ?ptr=1 for testing.
+   Listeners are passive (normal scrolling untouched) and touches on the hold-for-English button or inputs are ignored. */
+(function(){
+  const standalone = window.navigator.standalone === true || (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || /[?&]ptr=1/.test(location.search);
+  if (!standalone) return;
+  const PULL = 70, el = document.createElement("div"); el.id = "ptr"; el.setAttribute("aria-live", "polite");
+  el.innerHTML = '<span class="sp">↓</span><span class="tx">Desliza para actualizar</span>'; document.body.appendChild(el);
+  let y0 = null, dy = 0, busy = false;
+  const top = () => (window.scrollY || document.documentElement.scrollTop || 0) <= 0;
+  function paint(){
+    const d = Math.min(dy, 120), ready = dy > PULL;
+    el.style.opacity = String(Math.min(1, d / 40)); el.style.transform = `translate(-50%, ${Math.round(d * .6 - 50)}px)`;
+    el.classList.toggle("ready", ready);
+    el.querySelector(".sp").textContent = ready ? "↻" : "↓";
+    el.querySelector(".tx").textContent = ready ? "Suelta para actualizar" : "Desliza para actualizar";
+  }
+  function reset(){ y0 = null; dy = 0; el.style.opacity = "0"; el.style.transform = "translate(-50%,-70px)"; el.classList.remove("ready"); }
+  document.addEventListener("touchstart", e => {
+    if (busy || e.touches.length !== 1 || !top() || enOn) return reset();
+    if (e.target.closest && e.target.closest("#holdEn, input, textarea, select, .hold-en")) return reset();
+    y0 = e.touches[0].clientY; dy = 0;
+  }, {passive: true});
+  document.addEventListener("touchmove", e => {
+    if (y0 === null || busy) return;
+    if (e.touches.length !== 1 || enOn) return reset();
+    dy = e.touches[0].clientY - y0;
+    if (dy <= 0 || !top()) { if (dy < -10 || !top()) reset(); return; }
+    paint();
+  }, {passive: true});
+  document.addEventListener("touchend", () => {
+    if (y0 === null || busy) return;
+    if (dy > PULL && top()) {
+      busy = true; el.classList.add("busy", "ready"); el.querySelector(".sp").textContent = "↻"; el.querySelector(".tx").textContent = "Actualizando…";
+      el.style.opacity = "1"; el.style.transform = "translate(-50%, 0)";
+      // refresh the HTTP cache with the latest published page, then reload (falls back to a plain reload)
+      const go = () => location.reload();
+      try { fetch(location.pathname + location.search, {cache: "reload"}).then(go, go); setTimeout(go, 4000); } catch (e) { go(); }
+    } else reset();
+  }, {passive: true});
+  document.addEventListener("touchcancel", () => { if (!busy) reset(); }, {passive: true});
+})();
 history.replaceState({s: "home"}, "");
 renderHome(); hookRetry();
 </script>
