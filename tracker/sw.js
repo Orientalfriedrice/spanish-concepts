@@ -1,6 +1,6 @@
-/* Offline shell for Joseph's Week. Network first, so a reload picks up
-   edits, then fall back to the last cached copy when the phone is offline. */
-const CACHE = "jw-tracker-v1";
+/* Offline shell. Paths are relative to this file so the folder can live
+   at the root of a site. Network first, then the last cached copy. */
+const CACHE = "jw-tracker-v2";
 const ASSETS = [
   "./",
   "./index.html",

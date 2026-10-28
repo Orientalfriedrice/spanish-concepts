@@ -1,6 +1,6 @@
 {
-  "name": "Joseph's Week",
-  "short_name": "Joseph's Week",
+  "name": "My Week",
+  "short_name": "My Week",
   "description": "Weekly habit tracker",
   "id": "./",
   "start_url": "./",

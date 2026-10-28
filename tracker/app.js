@@ -1,41 +1,24 @@
-/* Joseph's Week
-   Ticks live in localStorage, one key per Monday, so closing the home-screen
-   app does not clear them and older weeks stay put:
-     jw-tracker:YYYY-MM-DD  →  { ticks: { "wake:YYYY-MM-DD": true }, dinner: { "YYYY-MM-DD": true } }
-   The week is Monday–Sunday in Asia/Singapore. */
+/* Weekly tracker.
+   Ticks stay in localStorage, one key per Monday:
+     jw-tracker:YYYY-MM-DD → { ticks: { "<row>:<date>": true }, dinner: { "<date>": true } }
+   Settings stay on this device under jw-tracker:settings and are never uploaded.
+   The week is Monday–Sunday in Asia/Singapore.
+   Paths are relative so this folder can be copied to the root of a site. */
 
-/* ------------------------------------------------------------------
-   Edit this object for one-off evenings, film titles, the last Zoom
-   Thursday, and the travel blackout. Dates are YYYY-MM-DD, Singapore.
-
-   eveningOverrides:
-     - a string  → that night is "Film + reflection" and the string
-                   is the film title (shown under the chip label)
-     - an object → replaces the evening chip entirely
-         { text, sub, window, category }
-         category is one of:
-           morning, commute, flash, worldly, evening, zoom, film, sleep
-   ------------------------------------------------------------------ */
 const CONFIG = {
   tz: "Asia/Singapore",
   storagePrefix: "jw-tracker:",
-  flashcardsUrl: "https://orientalfriedrice.github.io/spanish-concepts/",
-  // Inclusive. These days are grey, labelled Travelling, with no chips.
-  travel: { start: "2026-12-14", end: "2027-01-02" },
-  // Tue & Thu evenings are "Zoom lesson" on dates up to and including this day.
-  zoomUntil: "2026-11-26",
-  eveningOverrides: {
-    "2026-10-31": "Chasing Mavericks"
-  }
+  settingsKey: "jw-tracker:settings",
+  flashcardsUrl: "https://orientalfriedrice.github.io/spanish-concepts/"
 };
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const DOWS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const LEGEND = [
   ["morning", "Morning"],
-  ["commute", "Transfer"],
+  ["commute", "Commute"],
   ["flash", "Flashcards"],
-  ["worldly", "Worldly"],
+  ["worldly", "Lesson"],
   ["evening", "Evening"],
   ["zoom", "Zoom"],
   ["film", "Film"],
@@ -43,29 +26,32 @@ const LEGEND = [
 ];
 
 const ROWS = [
-  { id: "wake", label: "Wake", time: "6:45am", category: "sleep", text: "Alarm" },
-  { id: "pimsleur", label: "Pimsleur", time: "7:00am", category: "morning", text: "1 episode" },
-  { id: "dreaming", label: "Dreaming Spanish", time: "7:30am", category: "morning", text: "1 video" },
-  { id: "transfer", label: "Language Transfer", time: "8:30am", vary: "transfer" },
-  { id: "flash", label: "Flashcards", time: "11:45am", category: "flash", text: "6+ cards", link: true },
-  { id: "worldly", label: "Worldly", time: "12:00pm", category: "worldly", text: "Worldly lesson", sub: "15 min" },
-  { id: "evening", label: "Evening", time: "from 7pm", vary: "evening" },
-  { id: "bed", label: "Bed", time: "10pm", category: "sleep", text: "Lights out", sub: "asleep 10:15" }
+  { id: "wake", label: "Alarm", category: "sleep", text: "Alarm" },
+  { id: "pimsleur", label: "Morning Spanish", category: "morning", text: "Episode" },
+  { id: "dreaming", label: "Spanish video", category: "morning", text: "Video" },
+  { id: "transfer", label: "Commute", vary: "transfer" },
+  { id: "flash", label: "Flashcards", category: "flash", text: "Cards", link: true },
+  { id: "worldly", label: "Lesson", category: "worldly", text: "Lesson" },
+  { id: "evening", label: "Evening", vary: "evening" },
+  { id: "bed", label: "Bed", category: "sleep", text: "Lights out" }
 ];
 
 const HINT_KEY = CONFIG.storagePrefix + "hint";
 const CONFETTI_COUNT = 180;
 const LONG_PRESS_MS = 600;
+const DEFAULT_NAME = "My Week";
 
 const $ = (id) => document.getElementById(id);
 const board = $("board");
 const grid = $("grid");
+const settingsDialog = $("settings");
 
 let viewMonday = mondayOf(todayISO());
 let knownToday = todayISO();
 let stickToCurrent = true;
 let press = null;
 let suppressClick = false;
+let settings = loadSettings();
 
 function parts(iso) {
   const [y, m, d] = iso.split("-").map(Number);
@@ -98,6 +84,13 @@ function todayISO() {
   return get("year") + "-" + get("month") + "-" + get("day");
 }
 
+function isoOk(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value || "")) return false;
+  const { y, m, d } = parts(value);
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
+}
+
 function formatRange(monday) {
   const sun = addDays(monday, 6);
   const a = parts(monday);
@@ -118,35 +111,68 @@ function ariaWhen(iso) {
   }).format(new Date(Date.UTC(y, m - 1, d)));
 }
 
-function isTravel(iso) {
-  return iso >= CONFIG.travel.start && iso <= CONFIG.travel.end;
+function defaultSettings() {
+  return { name: "", times: {}, away: [], zoomUntil: "", films: {} };
+}
+
+function loadSettings() {
+  try {
+    const raw = localStorage.getItem(CONFIG.settingsKey);
+    if (!raw) return defaultSettings();
+    const data = JSON.parse(raw);
+    const times = {};
+    if (data.times && typeof data.times === "object") {
+      for (const row of ROWS) {
+        const value = data.times[row.id];
+        if (typeof value === "string" && value.trim()) times[row.id] = value.trim();
+      }
+    }
+    const away = [];
+    if (Array.isArray(data.away)) {
+      for (const range of data.away) {
+        if (!range || !isoOk(range.start) || !isoOk(range.end)) continue;
+        const start = range.start <= range.end ? range.start : range.end;
+        const end = range.start <= range.end ? range.end : range.start;
+        away.push({ start, end });
+      }
+    }
+    const films = {};
+    if (data.films && typeof data.films === "object") {
+      for (const [date, title] of Object.entries(data.films)) {
+        if (isoOk(date) && typeof title === "string" && title.trim()) films[date] = title.trim();
+      }
+    }
+    return {
+      name: typeof data.name === "string" ? data.name.trim() : "",
+      times,
+      away,
+      zoomUntil: isoOk(data.zoomUntil) ? data.zoomUntil : "",
+      films
+    };
+  } catch (err) {
+    return defaultSettings();
+  }
+}
+
+function isAway(iso) {
+  return settings.away.some((range) => iso >= range.start && iso <= range.end);
 }
 
 function eveningTask(iso, dow) {
-  const custom = CONFIG.eveningOverrides[iso];
-  if (typeof custom === "string") {
-    return { text: "Film + reflection", subs: [{ t: custom, strong: true }, { t: "7–9pm" }], category: "film" };
+  const title = dow === 5 && typeof settings.films[iso] === "string" ? settings.films[iso] : "";
+  if (dow === 5) {
+    const subs = title ? [{ t: title, strong: true }] : [];
+    return { text: "Film night", subs, category: "film" };
   }
-  if (custom && typeof custom === "object") {
-    const subs = [];
-    if (custom.sub) subs.push({ t: custom.sub, strong: true });
-    if (custom.window) subs.push({ t: custom.window });
-    return { text: custom.text || "Evening", subs, category: custom.category || "evening" };
+  if (settings.zoomUntil && (dow === 1 || dow === 3) && iso <= settings.zoomUntil) {
+    return { text: "Zoom", subs: [], category: "zoom" };
   }
-  // dow: 0 Mon, 1 Tue, 2 Wed, 3 Thu, 4 Fri, 5 Sat, 6 Sun
-  if (dow === 5) return { text: "Film + reflection", subs: [{ t: "7–9pm" }], category: "film" };
-  if ((dow === 1 || dow === 3) && iso <= CONFIG.zoomUntil) {
-    return { text: "Zoom lesson", subs: [{ t: "7:50–9:20pm" }], category: "zoom" };
-  }
-  return { text: "Recap + tutor/app", subs: [{ t: "8–9pm" }], category: "evening" };
+  return { text: "Evening", subs: [], category: "evening" };
 }
 
 function taskFor(row, iso, dow) {
   if (row.vary === "evening") return eveningTask(iso, dow);
-  if (row.vary === "transfer") {
-    if (dow >= 5) return { text: "On a walk", subs: [{ t: "optional" }], category: "commute" };
-    return { text: "On the commute", subs: [], category: "commute" };
-  }
+  if (row.vary === "transfer") return { text: "Commute", subs: [], category: "commute" };
   const subs = row.sub ? [{ t: row.sub }] : [];
   return { text: row.text, subs, category: row.category, link: !!row.link };
 }
@@ -172,6 +198,12 @@ function saveWeek(monday, data) {
     if (empty) localStorage.removeItem(weekKey(monday));
     else localStorage.setItem(weekKey(monday), JSON.stringify({ ticks: data.ticks, dinner: data.dinner }));
   } catch (err) {}
+}
+
+function applyName() {
+  const name = settings.name || DEFAULT_NAME;
+  $("app-name").textContent = name;
+  document.title = name;
 }
 
 function el(tag, attrs, children) {
@@ -246,9 +278,9 @@ function render(opts) {
   for (let i = 0; i < 7; i++) {
     const iso = addDays(viewMonday, i);
     days.push(iso);
-    const travel = isTravel(iso);
+    const away = isAway(iso);
     const head = el("div", {
-      class: "dayhead" + (i >= 5 ? " weekend" : "") + (iso === today ? " is-today" : "") + (travel ? " is-travel" : ""),
+      class: "dayhead" + (i >= 5 ? " weekend" : "") + (iso === today ? " is-today" : "") + (away ? " is-away" : ""),
       role: "columnheader"
     });
     head.append(el("span", { class: "dow", text: DOWS[i] }));
@@ -256,28 +288,29 @@ function render(opts) {
     dom.append(String(parts(iso).d));
     dom.append(el("small", { text: MONTHS[parts(iso).m - 1] }));
     head.append(dom);
-    if (travel) head.append(el("span", { class: "travel-note", text: "Travelling" }));
+    if (away) head.append(el("span", { class: "away-note", text: "Away" }));
     grid.append(head);
   }
 
   for (const row of ROWS) {
     const label = el("div", { class: "rowlabel sticky", role: "rowheader" });
     label.append(el("span", { class: "name", text: row.label }));
-    label.append(el("span", { class: "time", text: row.time }));
+    const time = (settings.times[row.id] || "").trim();
+    if (time) label.append(el("span", { class: "time", text: time }));
     grid.append(label);
     for (let i = 0; i < 7; i++) {
       const iso = days[i];
-      const travel = isTravel(iso);
-      const dinner = row.vary === "evening" && !travel && !!data.dinner[iso];
+      const away = isAway(iso);
+      const dinner = row.vary === "evening" && !away && !!data.dinner[iso];
       const cell = el("div", {
-        class: "cell" + (row.vary === "evening" ? " evening" : "") + (iso === today ? " is-today" : "") + (travel ? " is-travel" : "") + (dinner ? " is-dinner" : ""),
+        class: "cell" + (row.vary === "evening" ? " evening" : "") + (iso === today ? " is-today" : "") + (away ? " is-away" : "") + (dinner ? " is-dinner" : ""),
         role: "gridcell"
       });
       cell.dataset.date = iso;
       cell.dataset.row = row.id;
       if (dinner) {
         cell.setAttribute("aria-label", "Dinner night, " + ariaWhen(iso) + ". Hold to restore the evening task.");
-      } else if (!travel) {
+      } else if (!away) {
         cell.append(buildChip(row, iso, i, !!data.ticks[row.id + ":" + iso]));
       }
       grid.append(cell);
@@ -360,6 +393,7 @@ function onMaybeNewDay() {
 
 function buildLegend() {
   const list = $("legend");
+  list.replaceChildren();
   for (const [id, name] of LEGEND) {
     const item = el("li");
     item.append(el("i", { class: "sw-" + id, "aria-hidden": "true" }));
@@ -378,6 +412,104 @@ function showHintOnce() {
   }
   hint.hidden = false;
   try { localStorage.setItem(HINT_KEY, "1"); } catch (err) {}
+}
+
+function addAwayRow(start, end) {
+  const row = el("div", { class: "pair" });
+  const from = el("input", { type: "date", class: "away-start", "aria-label": "Away start" });
+  const to = el("input", { type: "date", class: "away-end", "aria-label": "Away end" });
+  if (start) from.value = start;
+  if (end) to.value = end;
+  const remove = el("button", { type: "button", class: "iconx", "aria-label": "Remove range", text: "×" });
+  remove.addEventListener("click", () => row.remove());
+  row.append(from, to, remove);
+  $("set-away").append(row);
+}
+
+function addFilmRow(date, title) {
+  const row = el("div", { class: "film-block" });
+  const top = el("div", { class: "pair" });
+  const when = el("input", { type: "date", class: "film-date", "aria-label": "Saturday" });
+  const name = el("input", { type: "text", class: "film-title", maxlength: "80", placeholder: "Title", autocomplete: "off", "aria-label": "Film title" });
+  if (date) when.value = date;
+  if (title) name.value = title;
+  const remove = el("button", { type: "button", class: "iconx", "aria-label": "Remove film", text: "×" });
+  remove.addEventListener("click", () => row.remove());
+  top.append(when, remove);
+  row.append(top, name);
+  $("set-films").append(row);
+}
+
+function fillSettingsForm() {
+  $("set-name").value = settings.name || "";
+  $("set-zoom").value = settings.zoomUntil || "";
+  const times = $("set-times");
+  times.replaceChildren();
+  for (const row of ROWS) {
+    const label = el("label", { class: "time-row" });
+    label.append(el("span", { text: row.label }));
+    const input = el("input", {
+      type: "text",
+      "data-row": row.id,
+      maxlength: "32",
+      placeholder: "Optional",
+      autocomplete: "off",
+      "aria-label": row.label + " time"
+    });
+    input.value = settings.times[row.id] || "";
+    label.append(input);
+    times.append(label);
+  }
+  $("set-away").replaceChildren();
+  for (const range of settings.away) addAwayRow(range.start, range.end);
+  $("set-films").replaceChildren();
+  const filmDates = Object.keys(settings.films).sort();
+  for (const date of filmDates) addFilmRow(date, settings.films[date]);
+}
+
+function openSettings() {
+  fillSettingsForm();
+  if (typeof settingsDialog.showModal === "function") settingsDialog.showModal();
+  else settingsDialog.setAttribute("open", "");
+}
+
+function closeSettings() {
+  if (typeof settingsDialog.close === "function" && settingsDialog.open) settingsDialog.close();
+  else settingsDialog.removeAttribute("open");
+}
+
+function saveSettingsFromForm() {
+  const next = defaultSettings();
+  next.name = $("set-name").value.trim();
+  const zoom = $("set-zoom").value;
+  next.zoomUntil = isoOk(zoom) ? zoom : "";
+  for (const input of $("set-times").querySelectorAll("input")) {
+    const value = input.value.trim();
+    if (value) next.times[input.dataset.row] = value;
+  }
+  for (const row of $("set-away").querySelectorAll(".pair")) {
+    let start = row.querySelector(".away-start").value;
+    let end = row.querySelector(".away-end").value;
+    if (!isoOk(start) || !isoOk(end)) continue;
+    if (start > end) {
+      const swap = start;
+      start = end;
+      end = swap;
+    }
+    next.away.push({ start, end });
+  }
+  for (const row of $("set-films").querySelectorAll(".film-block")) {
+    const date = row.querySelector(".film-date").value;
+    const title = row.querySelector(".film-title").value.trim();
+    if (!isoOk(date) || !title) continue;
+    next.films[date] = title;
+  }
+  try { localStorage.setItem(CONFIG.settingsKey, JSON.stringify(next)); } catch (err) {}
+  settings = loadSettings();
+  applyName();
+  buildLegend();
+  render({ keepScroll: board.scrollLeft });
+  closeSettings();
 }
 
 /* ---------- confetti ---------- */
@@ -482,7 +614,7 @@ grid.addEventListener("click", (event) => {
 
 grid.addEventListener("pointerdown", (event) => {
   const cell = event.target.closest(".cell.evening");
-  if (!cell || cell.classList.contains("is-travel")) return;
+  if (!cell || cell.classList.contains("is-away")) return;
   if (event.target.closest("a")) return;
   if (event.button != null && event.button !== 0) return;
   clearTimeout(press && press.timer);
@@ -509,8 +641,7 @@ function endPress(event) {
     if (Math.hypot(dx, dy) <= 12) return;
   }
   clearTimeout(press.timer);
-  if (!press.fired) press = null;
-  else press = null;
+  press = null;
 }
 
 grid.addEventListener("pointerup", endPress);
@@ -536,6 +667,19 @@ $("jump").addEventListener("click", () => {
   render();
 });
 
+$("open-settings").addEventListener("click", openSettings);
+$("close-settings").addEventListener("click", closeSettings);
+$("save-settings").addEventListener("click", saveSettingsFromForm);
+$("add-away").addEventListener("click", () => addAwayRow("", ""));
+$("add-film").addEventListener("click", () => addFilmRow("", ""));
+$("settings-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  saveSettingsFromForm();
+});
+settingsDialog.addEventListener("click", (event) => {
+  if (event.target === settingsDialog) closeSettings();
+});
+
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden) onMaybeNewDay();
 });
@@ -544,12 +688,13 @@ window.addEventListener("resize", () => {
   if (confettiOn) sizeCanvas();
 });
 
+applyName();
 buildLegend();
 showHintOnce();
 render();
 
 if ("serviceWorker" in navigator && location.search.indexOf("nosw=1") === -1) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(() => {});
+    navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(() => {});
   });
 }

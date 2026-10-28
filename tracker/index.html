@@ -8,9 +8,9 @@
 <meta name="theme-color" content="#0e0f13" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Joseph's Week">
+<meta name="apple-mobile-web-app-title" content="My Week">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Joseph's Week</title>
+<title>My Week</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -24,11 +24,14 @@
       <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
     <div class="titles">
-      <h1>Joseph's Week</h1>
+      <h1 id="app-name">My Week</h1>
       <p class="tap">Tap a task to tick it off</p>
       <p class="range" id="range"></p>
       <button type="button" class="jump" id="jump" hidden>This week</button>
     </div>
+    <button type="button" class="nav" id="open-settings" aria-label="Settings">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3.6v2.1M12 18.3v2.1M4.9 6.7l1.5 1.5M17.6 15.8l1.5 1.5M3.6 12h2.1M18.3 12h2.1M4.9 17.3l1.5-1.5M17.6 8.2l1.5-1.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
     <button type="button" class="nav" id="next" aria-label="Next week">
       <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
@@ -42,6 +45,41 @@
   </div>
 </div>
 <canvas id="confetti" aria-hidden="true"></canvas>
+<dialog id="settings" class="sheet" aria-labelledby="settings-title">
+  <form id="settings-form" autocomplete="off" onsubmit="return false">
+    <div class="sheet-bar">
+      <h2 id="settings-title">Settings</h2>
+      <button type="button" class="nav" id="close-settings" aria-label="Close settings">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <p class="sheet-note">Saved on this device only. Nothing here is uploaded.</p>
+    <label class="field">Display name
+      <input id="set-name" type="text" maxlength="40" autocomplete="off" placeholder="My Week">
+    </label>
+    <fieldset>
+      <legend>Row times</legend>
+      <div id="set-times"></div>
+    </fieldset>
+    <fieldset>
+      <legend>Away</legend>
+      <p class="sheet-note">Days in a range are greyed out, with no tasks.</p>
+      <div id="set-away"></div>
+      <button type="button" class="textbtn" id="add-away">Add a range</button>
+    </fieldset>
+    <label class="field">Last Zoom day
+      <input id="set-zoom" type="date">
+    </label>
+    <p class="sheet-note">Tue and Thu up to and including this day are Zoom. Leave blank to skip.</p>
+    <fieldset>
+      <legend>Film nights</legend>
+      <p class="sheet-note">A title for a Saturday, shown on that day's film chip.</p>
+      <div id="set-films"></div>
+      <button type="button" class="textbtn" id="add-film">Add a film night</button>
+    </fieldset>
+    <button type="button" class="primary" id="save-settings">Save</button>
+  </form>
+</dialog>
 <script src="app.js"></script>
 </body>
 </html>

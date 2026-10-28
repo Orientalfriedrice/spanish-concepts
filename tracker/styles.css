@@ -1,4 +1,4 @@
-/* Joseph's Week — a glanceable phone tracker.
+/* Weekly tracker. The label column stays put; the days scroll sideways.
    Layout is tuned for a ~390px iPhone viewport: the label column stays
    put, and the seven days scroll sideways under a frosted edge. */
 
@@ -296,7 +296,7 @@ h1 {
   background: var(--g-weekday);
 }
 .dayhead.weekend .dow { background: var(--g-weekend); }
-.dayhead.is-travel .dow { background: var(--g-travel); color: #44403c; }
+.dayhead.is-away .dow { background: var(--g-travel); color: #44403c; }
 .dom {
   font-size: 12.5px;
   font-weight: 740;
@@ -309,7 +309,7 @@ h1 {
   color: var(--muted);
   margin-left: 2px;
 }
-.travel-note {
+.away-note {
   font-size: 9px;
   font-weight: 760;
   letter-spacing: 0.08em;
@@ -318,10 +318,10 @@ h1 {
 }
 .dayhead.is-today,
 .cell.is-today { background: var(--today); }
-.dayhead.is-travel,
-.cell.is-travel { background: var(--travel); }
-.dayhead.is-today.is-travel,
-.cell.is-today.is-travel { background: var(--travel-today); }
+.dayhead.is-away,
+.cell.is-away { background: var(--travel); }
+.dayhead.is-today.is-away,
+.cell.is-today.is-away { background: var(--travel-today); }
 .dayhead.is-today .dow { box-shadow: 0 0 0 2px var(--today-ring); }
 .dayhead.is-today .dom { color: var(--today-ring); }
 
@@ -463,7 +463,7 @@ a:focus-visible {
 }
 
 @media (prefers-color-scheme: dark) {
-  .dayhead.is-travel .dow { color: #f5f5f4; }
+  .dayhead.is-away .dow { color: #f5f5f4; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -471,4 +471,108 @@ a:focus-visible {
   .chip.on .tick { animation: none; }
   .chip.on .tick { opacity: 1; transform: none; }
   .chip:active { transform: none; }
+}
+
+dialog.sheet {
+  border: 0;
+  padding: 0;
+  margin: auto;
+  width: min(440px, calc(100vw - 20px));
+  max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  overflow: auto;
+  border-radius: 18px;
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+dialog.sheet::backdrop { background: rgba(16, 14, 12, 0.48); }
+dialog.sheet form { padding: 14px 14px 18px; }
+.sheet-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.sheet-bar h2 {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: -0.03em;
+}
+.sheet-note {
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+fieldset {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 0 0 12px;
+  padding: 8px 10px 10px;
+}
+legend { font-size: 12px; font-weight: 720; padding: 0 4px; }
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 680;
+}
+.time-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 680;
+}
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.film-block { margin-bottom: 10px; }
+.film-block .pair { grid-template-columns: minmax(0, 1fr) auto; margin-bottom: 6px; }
+.film-block .film-title { display: block; }
+input[type="text"],
+input[type="date"] {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  font: 16px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--board);
+  border: 1px solid var(--nav-line);
+  border-radius: 10px;
+  padding: 8px 8px;
+}
+button.primary {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  padding: 12px;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 720;
+}
+button.textbtn {
+  border: 0;
+  background: none;
+  color: var(--a-zoom);
+  font-weight: 720;
+  padding: 4px 0 2px;
+}
+button.iconx {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  border: 1px solid var(--nav-line);
+  background: var(--nav-bg);
+  font-size: 18px;
+  line-height: 1;
 }
